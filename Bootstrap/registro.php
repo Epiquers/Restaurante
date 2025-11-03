@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Grill & Growler</title>
+    
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="body-login">
+
+    <main class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                
+                <div class="caja p-4 shadow-sm">
+                    <h1 class="titulo text-center mb-4">Registro de Cliente</h1>
+                    
+                    <form action="registro.php" method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="dni_reg" class="form-label">DNI</label>
+                                <input type="text" class="form-control" id="dni_reg" name="dni_reg" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nombre_reg" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre_reg" name="nombre_reg" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pass_reg" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="pass_reg" name="pass_reg" required>
+                        </div>
+                         <div class="mb-3">
+                            <label for="pass_reg_conf" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="pass_reg_conf" name="pass_reg_conf" required>
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success">Registrarme</button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p class="text-muted">¿Ya tienes cuenta? 
+                            <a href="login.php">Inicia sesión</a>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <?php include 'includes/footer.php'; ?>
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
