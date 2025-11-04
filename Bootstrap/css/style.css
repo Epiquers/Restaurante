@@ -44,15 +44,21 @@ strong {
     color: #F28E2B; /* Naranja Ámbar, para destacar */
 }
 
+/* --- ESTILO DE TÍTULOS DE SECCIÓN --- */
 .titulo {
-    background-color: #4D2C0C; /* Fondo naranja quemado/marrón oscuro */
-    border: 1px solid #F28E2B; /* Borde Naranja Ámbar */
-    color: #EAE0D5; /* Texto color Crema/Espuma */
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
+    background-color: transparent;
+    border-radius: 0;
+    
+    font-family: 'Roboto Slab', serif;
+    color: #EAE0D5; /* Color crema sobrio */
+    
     margin-top: 20px;
     margin-bottom: 25px;
+    
+    /* --- ¡CAMBIO! --- */
+    /* Quitamos los bordes y el padding-bottom */
+    border: none;
+    padding-bottom: 0; 
 }
 
 /* --- Estilos de Formulario (Modo Oscuro Cálido) --- */
@@ -83,4 +89,43 @@ strong {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+}
+
+/* --- ESTILOS DEL HEADER (LOGO) --- */
+.brand-header {
+    background-color: #3D352E; /* Fondo unificado (igual que .caja) */
+    background-image: none; 
+    padding: 1.5rem 0; 
+    
+    /* ESTA LÍNEA SE QUEDA */
+    border-bottom: 3px solid #F28E2B; 
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.brand-header .brand-logo {
+    font-family: 'Roboto Slab', serif;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.brand-header .brand-logo:hover {
+    text-decoration: none;
+}
+
+.brand-header .brand-title {
+    display: block;
+    font-size: 2.5rem; 
+    line-height: 1.1;
+    color: #EAE0D5; /* Color crema sobrio */
+}
+
+.brand-header .brand-tagline {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8rem;
+    color: #F28E2B; /* Color acento */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 2px;
 }

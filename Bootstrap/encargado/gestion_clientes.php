@@ -4,29 +4,25 @@
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Personal - Grill & Growler</title>
-
+    
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-
+    
     <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
-    <?php
-    include '../includes/header.php';
-    include '../includes/navbar_encargado.php';
-    ?>
+    <?php include '../includes/navbar_encargado.php'; ?>
 
 
     <main class="container mt-4 flex-grow-1">
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h1 class="titulo" style="margin-top: 0; margin-bottom: 0;">Gestión de Personal</h1>
+            <h1 class="titulo" style="margin-top: 0; margin-bottom: 0;">Gestión de Clientes</h1>
             <button class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseAnadir">
                 + Añadir Nuevo
             </button>
@@ -55,7 +51,7 @@
                             <label for="edad" class="form-label">Edad</label>
                             <input type="number" class="form-control" id="edad" name="edad" required>
                         </div>
-                        <div class="col-md-4 mb-3">
+                         <div class="col-md-4 mb-3">
                             <label for="rol" class="form-label">Rol</label>
                             <select class="form-select" id="rol" name="rol" required>
                                 <option value="camarero">Camarero</option>
@@ -68,7 +64,7 @@
                             <label for="foto" class="form-label">Foto</label>
                             <input type="file" class="form-control" id="foto" name="foto">
                         </div>
-                        <div class="col-md-6 mb-3">
+                         <div class="col-md-6 mb-3">
                             <label for="pass" class="form-label">Contraseña Provisional</label>
                             <input type="password" class="form-control" id="pass" name="pass" required>
                         </div>
@@ -116,5 +112,4 @@
     <script src="../js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>

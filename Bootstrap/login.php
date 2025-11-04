@@ -1,29 +1,47 @@
 <?php
 session_start();
+include("includes/conexion.php");
 
-// Comprobamos si el usuario ya ha iniciado sesión
-if (isset($_SESSION['usuario_id']) && isset($_SESSION['rol'])) {
-    
-    // Redirigimos según el rol
-    switch ($_SESSION['rol']) {
-        case 'encargado':
-            header('Location: encargado/gestion_personal.php'); // O la página principal del encargado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['dni']) && isset($_POST['passwd'])) {
+
+        // Creo variable con dni del usuario logueado
+        $dni = $_POST['dni'];
+        $pass = $_POST['passwd'];
+
+        // Creo consulta con los datos del usuario logueado
+        $consulta = "SELECT * FROM usuarios WHERE dni=$dni AND passwd=$pass";
+        $result = mysqli_query($conn, $consulta);
+        echo mysqli_error($conn);
+
+        if (mysqli_num_rows($result) == 1) {
+            //Usuario registrado
+            $row = mysqli_fetch_assoc($result);
+
+            $_SESSION['rol'] = $row['rol'];
+
+            // Redirigimos según el rol
+            switch ($_SESSION['rol']) {
+                case '1':
+                    header('Location: encargado/gestion_personal.php');
+                    exit();
+                case '2':
+                    header('Location: camarero/mesas.php');
+                    exit();
+                case '3':
+                    header('Location: cliente/elegir_mesa.php');
+                    exit();
+                default:
+                    // Si hay un rol raro, lo mandamos al login
+                    header('Location: login.php');
+                    exit();
+            }
+        } else if (mysqli_num_rows($result) > 1) {
+            //"Fallo de integridad en la bbdd";
+        } else {
+            $_SESSION['error'] = "Usuario no registrado o datos incorrecto";
+            header('Location: login.php');
             exit();
-        case 'camarero':
-            header('Location: camarero/mesas.php');
-            exit();
-        case 'cliente':
-            header('Location: cliente/carta.php'); // O la página de elegir mesa
-            exit();
-        default:
-            // Si hay un rol raro, lo mandamos al login
-            header('Location: login.php?error=rol_invalido');
-            exit();
+        }
     }
-
-} else {
-    // Si no hay sesión, lo mandamos siempre al login
-    header('Location: login.php');
-    exit();
 }
-?>

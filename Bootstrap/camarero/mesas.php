@@ -1,6 +1,12 @@
 <?php
 // session_start();
-// ... (Tu código de seguridad y lógica PHP) ...
+//
+// AQUÍ VA TU CÓDIGO DE SEGURIDAD
+// (Comprobar rol de camarero)
+//
+// AQUÍ VA TU LÓGICA PHP
+// (Consultar BBDD para saber el estado de las 10 mesas)
+//
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,6 +22,8 @@
 
 <body class="d-flex flex-column min-vh-100">
 
+    <?php include '../includes/header.php'; ?>
+
     <?php include '../includes/navbar_camarero.php'; ?>
 
 
@@ -28,7 +36,7 @@
                 <div class="caja text-center border border-success">
                     <h2 class="h4">Mesa 1</h2>
                     <p class="h5 fw-bold text-success">LIBRE</p>
-                    </div>
+                </div>
             </div>
 
             <div class="col-md-4 col-lg-3 mb-4">
