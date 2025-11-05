@@ -35,7 +35,7 @@
         <div class="collapse" id="collapseAnadir">
             <div class="caja mb-4">
                 <h2>Añadir Nuevo Personal</h2>
-                <form action="gestion_personal.php" method="POST" enctype="multipart/form-data">
+                <form action="altas_personal.php" method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
@@ -47,31 +47,48 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="dni" class="form-label">DNI</label>
                             <input type="text" class="form-control" id="dni" name="dni" required>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="edad" class="form-label">Edad</label>
-                            <input type="number" class="form-control" id="edad" name="edad" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="rol" class="form-label">Rol</label>
-                            <select class="form-select" id="rol" name="rol" required>
-                                <option value="camarero">Camarero</option>
-                                <option value="encargado">Encargado</option>
-                            </select>
+                        <div class="col-md-6 mb-3">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="foto" class="form-label">Foto</label>
-                            <input type="file" class="form-control" id="foto" name="foto">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="password" class="form-control" id="direccion" name="direccion" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="pass" class="form-label">Contraseña Provisional</label>
-                            <input type="password" class="form-control" id="pass" name="pass" required>
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="password" class="form-control" id="email" name="email" required>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="rol" class="form-label">Rol</label>
+                            <select class="form-select" id="rol" name="rol" required>
+                                <option value="" disabled selected>Elige un rol...</option>
+                                <option value="encargado">Encargado</option>
+                                <option value="camarero">Camarero</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="pass1" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="pass1" name="pass1" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="pass2" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="pass2" name="pass2" required>
+                        </div>
+                        <?php
+                        if (isset($_SESSION['error'])) {
+                            echo "<div class='text-danger small mt-1'>Las contraseñas no coinciden..</div>";
+                            unset($_SESSION['error']);
+                        }
+                        ?>
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar Personal</button>
                 </form>
@@ -84,23 +101,26 @@
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Foto</th>
                             <th>Nombre</th>
+                            <th>Apellido</th>
                             <th>DNI</th>
+                            <th>Teléfono</th>
+                            <th>Dirección</th>
+                            <th>Correo</th>
                             <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+                            <th>Bloquear</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>(imagen)</td>
-                            <td>Juan Pérez</td>
+                            <td>Juan</td>
+                            <td>Pérez</td>
                             <td>12345678A</td>
+                            <td>675675675</td>
+                            <td>C/ perico</td>
+                            <td>pepe@gmail.com</td>
                             <td>Camarero</td>
-                            <td><span class="badge bg-success">Activo</span></td>
                             <td>
-                                <button class="btn btn-warning btn-sm">Modificar</button>
                                 <button class="btn btn-danger btn-sm">Suspender</button>
                             </td>
                         </tr>

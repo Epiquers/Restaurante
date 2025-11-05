@@ -22,6 +22,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownGestion">
             <li><a class="dropdown-item" href="gestion_personal.php">Personal</a></li>
+            <li><a class="dropdown-item" href="gestion_clientes.php">Clientes</a></li>
             <li><a class="dropdown-item" href="gestion_productos.php">Productos y Stock</a></li>
             <li><a class="dropdown-item" href="gestion_categorias.php">Categorías</a></li>
           </ul>

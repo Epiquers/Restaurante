@@ -23,55 +23,6 @@
 
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1 class="titulo" style="margin-top: 0; margin-bottom: 0;">Gestión de Clientes</h1>
-            <button class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#collapseAnadir">
-                + Añadir Nuevo
-            </button>
-        </div>
-
-        <div class="collapse" id="collapseAnadir">
-            <div class="caja mb-4">
-                <h2>Añadir Nuevo Personal</h2>
-                <form action="gestion_personal.php" method="POST" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="apellidos" class="form-label">Apellidos</label>
-                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="dni" class="form-label">DNI</label>
-                            <input type="text" class="form-control" id="dni" name="dni" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="edad" class="form-label">Edad</label>
-                            <input type="number" class="form-control" id="edad" name="edad" required>
-                        </div>
-                         <div class="col-md-4 mb-3">
-                            <label for="rol" class="form-label">Rol</label>
-                            <select class="form-select" id="rol" name="rol" required>
-                                <option value="camarero">Camarero</option>
-                                <option value="encargado">Encargado</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="foto" class="form-label">Foto</label>
-                            <input type="file" class="form-control" id="foto" name="foto">
-                        </div>
-                         <div class="col-md-6 mb-3">
-                            <label for="pass" class="form-label">Contraseña Provisional</label>
-                            <input type="password" class="form-control" id="pass" name="pass" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Guardar Personal</button>
-                </form>
-            </div>
         </div>
 
         <div class="caja">
