@@ -10,6 +10,7 @@ include("includes/conexion.php");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Grill & Growler</title>
+    <link rel="icon" type="../image/x-icon" href="img/LogoBG.png">
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
 

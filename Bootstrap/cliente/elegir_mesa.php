@@ -16,8 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
     $id_mesa = $_POST['mesa'];
     $comensales = $_POST['comensales'];
 
-    // Guardamos la mesa en la sesión del cliente
+    // Guardamos la mesa y los comensales en la sesión del cliente
     $_SESSION['mesa_id'] = $id_mesa;
+    $_SESSION['comensales'] = $comensales;
 
     // Redireccionamos a la carta
     header('Location: carta.php');

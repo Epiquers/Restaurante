@@ -1,12 +1,6 @@
 <?php
 session_start();
-
-// AQUÍ VA TU CÓDIGO DE SEGURIDAD
-// (Comprobar rol de camarero)
-// if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'camarero') {
-//    header('Location: ../login.php');
-//    exit();
-// }
+// include("seguridad_camarero.php");
 
 // 1. OBTENER EL ID DE LA MESA DESDE LA URL (GET)
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
