@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("../includes/conexion.php");
+include("seguridad_cliente.php");
 
 // Si el cliente YA tiene una mesa asignada en la sesión lo mandamos directo a la carta.
 if (isset($_SESSION['mesa_id'])) {
@@ -10,6 +10,8 @@ if (isset($_SESSION['mesa_id'])) {
 
 // Asignamos variable de sesión y enviamos a carta
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
+
+    // Falta meter el insert de la reserva 
 
     $id_mesa = $_POST['mesa'];
     $comensales = $_POST['comensales'];
@@ -52,8 +54,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
                         <div class="mb-3">
                             <label for="mesa" class="form-label">Mesa disponible:</label>
                             <select class="form-select form-select-lg" id="mesa" name="mesa" required>
-                                <option value="1">Mesa 1</option>
-                                <option value="2">Mesa 2</option>
+                                <?php
+                                include("../includes/conexion.php");
+
+                                $consulta = "SELECT * FROM mesas WHERE estado=0";
+                                $result = mysqli_query($conn, $consulta);
+
+                                while ($row = mysqli_fetch_array($result)) {
+                                    echo "<option value='" . $row['idm'] . "'>Mesa " . $row['idm'] . "</option>";
+                                }
+                                mysqli_close($conn);
+                                ?>
                             </select>
                         </div>
 

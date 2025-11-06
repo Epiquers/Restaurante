@@ -1,3 +1,8 @@
+
+<?php
+session_start();
+include("includes/conexion.php");
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -14,13 +19,13 @@
 <body class="body-login">
 
     <main class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center vh-100 align-items-center">
             <div class="col-md-7 col-lg-6">
 
                 <div class="caja p-4 shadow-sm">
                     <h1 class="titulo text-center mb-4">Registro de Cliente</h1>
 
-                    <form action="registro.php" method="POST">
+                    <form action="altas.php" method="POST">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
@@ -43,11 +48,11 @@
                         </div>
                         <div class="col mb-3">
                             <label for="direccion" class="form-label">Dirección</label>
-                            <input type="password" class="form-control" id="direccion" name="direccion" required>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
                         </div>
                         <div class="col mb-3">
                             <label for="email" class="form-label">Correo electrónico</label>
-                            <input type="password" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -81,8 +86,6 @@
             </div>
         </div>
     </main>
-
-    <?php include 'includes/footer.php'; ?>
 
     <script src="js/bootstrap.bundle.min.js"></script>
 

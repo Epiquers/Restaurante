@@ -6,7 +6,12 @@
 body {
     /* Usamos 'Roboto' como fuente base, más moderna que Arial */
     font-family: 'Roboto', sans-serif;
-    background-color: #282420; /* Un marrón/carbón muy oscuro, en lugar de gris-azul */
+    /* background-color: #282420; /* Un marrón/carbón muy oscuro, en lugar de gris-azul */
+    background-image: url(../img/grifosDesenfoque.webp);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
     line-height: 1.6;
     color: #EAE0D5; /* Un color crema/espuma, en lugar de blanco puro */
     

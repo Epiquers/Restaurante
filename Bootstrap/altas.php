@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($pass1 !== $pass2) {
         $_SESSION['error'] = true;
         header("LOCATION: registro.php");
+        exit();
     } else {
         $consulta = "INSERT INTO usuarios (dni,nombre,apellidos,direccion,email,telefono,passwd,rol) 
         VALUES ('$dni','$nombre','$ape','$dir','$email','$tel','$pass1',3)";
@@ -25,5 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Redireccionamos a la web listados (este fichero lo debeis de crar vosotros)
         mysqli_close($conn);
         header("LOCATION:index.php");
+        exit();
     }
 }

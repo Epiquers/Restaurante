@@ -12,9 +12,9 @@
 <body class="body-login">
 
     <main class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center vh-100 align-items-center">
             <div class="col-md-6 col-lg-5">
-
+                
                 <div class="caja p-4 shadow-sm">
                     <h1 class="titulo text-center mb-4">Grill & Growler</h1>
 
@@ -22,12 +22,12 @@
 
                     <form action="login.php" method="POST">
                         <div class="mb-3">
-                            <label for="dni_login" class="form-label">DNI</label>
-                            <input type="text" class="form-control" id="dni_login" name="dni_login" required>
+                            <label for="dni" class="form-label">DNI</label>
+                            <input type="text" class="form-control" id="dni" name="dni" required>
                         </div>
                         <div class="mb-3">
-                            <label for="pass_login" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="pass_login" name="pass_login" required>
+                            <label for="passwd" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="passwd" name="passwd" required>
                         </div>
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-primary">Entrar</button>
@@ -50,8 +50,6 @@
             </div>
         </div>
     </main>
-
-    <?php include 'includes/footer.php'; ?>
 
     <script src="js/bootstrap.bundle.min.js"></script>
 

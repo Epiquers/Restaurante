@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $pass = $_POST['passwd'];
 
         // Creo consulta con los datos del usuario logueado
-        $consulta = "SELECT * FROM usuarios WHERE dni=$dni AND passwd=$pass";
+        $consulta = "SELECT * FROM usuarios WHERE dni='$dni' AND passwd='$pass'";
         $result = mysqli_query($conn, $consulta);
         echo mysqli_error($conn);
 
@@ -22,25 +22,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirigimos según el rol
             switch ($_SESSION['rol']) {
-                case '1':
+                case 1:
                     header('Location: encargado/gestion_personal.php');
                     exit();
-                case '2':
+                case 2:
                     header('Location: camarero/mesas.php');
                     exit();
-                case '3':
+                case 3:
                     header('Location: cliente/elegir_mesa.php');
                     exit();
                 default:
                     // Si hay un rol raro, lo mandamos al login
-                    header('Location: login.php');
+                    header('Location: index.php');
                     exit();
             }
         } else if (mysqli_num_rows($result) > 1) {
             //"Fallo de integridad en la bbdd";
         } else {
             $_SESSION['error'] = "Usuario no registrado o datos incorrecto";
-            header('Location: login.php');
+            header('Location: index.php');
             exit();
         }
     }
