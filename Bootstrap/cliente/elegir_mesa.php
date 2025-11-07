@@ -46,7 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
 
 <body class="d-flex flex-column min-vh-100">
 
-    <?php include '../includes/header.php'; ?>
+    <?php 
+    include ('../includes/header.php'); 
+    include("navbar_mesas.php");
+    ?>
 
     <main class="container mt-4 flex-grow-1 d-flex align-items-center">
         <div class="row justify-content-center w-100">
