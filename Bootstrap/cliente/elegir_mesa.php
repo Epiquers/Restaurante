@@ -11,10 +11,15 @@ if (isset($_SESSION['mesa_id'])) {
 // Asignamos variable de sesión y enviamos a carta
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
 
-    // Falta meter el insert de la reserva 
-
     $id_mesa = $_POST['mesa'];
     $comensales = $_POST['comensales'];
+
+    // Cambiamos estado de la mesa a ocupada
+    include("../includes/conexion.php");
+    $consulta ="UPDATE mesas SET estado=1 WHERE idm=$id_mesa";
+    mysqli_query($conn, $consulta);
+    echo mysqli_error($conn);
+    mysqli_close($conn);
 
     // Guardamos la mesa y los comensales en la sesión del cliente
     $_SESSION['mesa_id'] = $id_mesa;

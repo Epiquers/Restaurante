@@ -64,7 +64,7 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
 
     <?php include '../includes/header.php'; ?>
 
-    <?php include '../includes/navbar_camarero.php'; ?>
+    <?php include 'navbar_camarero.php'; ?>
 
 
     <main class="container mt-4 flex-grow-1">

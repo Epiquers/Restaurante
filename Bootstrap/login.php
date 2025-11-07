@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $consulta = "SELECT * FROM usuarios WHERE dni='$dni' AND passwd='$pass'";
         $result = mysqli_query($conn, $consulta);
         echo mysqli_error($conn);
+        mysqli_close($conn);
 
         if (mysqli_num_rows($result) == 1) {
             //Usuario registrado

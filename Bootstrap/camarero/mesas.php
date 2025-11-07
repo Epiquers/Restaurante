@@ -19,7 +19,7 @@ session_start();
 
     <?php include '../includes/header.php'; ?>
 
-    <?php include '../includes/navbar_camarero.php'; ?>
+    <?php include 'navbar_camarero.php'; ?>
 
 
     <main class="container mt-4 flex-grow-1">

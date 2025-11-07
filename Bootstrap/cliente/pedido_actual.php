@@ -37,7 +37,7 @@ $cuenta_ya_pedida = false;
 
     <?php include '../includes/header.php'; ?>
 
-    <?php include '../includes/navbar_cliente.php'; ?>
+    <?php include 'navbar_cliente.php'; ?>
 
 
     <main class="container mt-4 flex-grow-1">

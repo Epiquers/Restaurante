@@ -1,6 +1,6 @@
 <?php
 // session_start();
-// ... (Tu código de seguridad y lógica PHP) ...
+//include("seguridad_encargado.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -19,7 +19,7 @@
 
     <?php
     include '../includes/header.php';
-    include '../includes/navbar_encargado.php';
+    include 'navbar_encargado.php';
     ?>
 
 

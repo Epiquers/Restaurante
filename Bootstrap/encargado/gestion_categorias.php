@@ -1,15 +1,6 @@
 <?php
 session_start();
-
-// AQUÍ VA TU CÓDIGO DE SEGURIDAD
-// 1. Comprobar que el usuario ha iniciado sesión
-// 2. Comprobar que el rol es 'encargado'
-// if (!isset($_SESSION['rol']) || $_SESSION['rol'] != 'encargado') {
-//    header('Location: ../login.php');
-//    exit();
-// }
-
-// --- LÓGICA PARA PROCESAR FORMULARIOS (POST) ---
+//include("seguridad_encargado.php");
 
 // 1. Lógica para AÑADIR una nueva categoría
 if (isset($_POST['guardar_categoria'])) {
@@ -68,7 +59,7 @@ $categorias = [
 
     <?php include '../includes/header.php'; ?>
 
-    <?php include '../includes/navbar_encargado.php'; ?>
+    <?php include 'navbar_encargado.php'; ?>
 
 
     <main class="container mt-4 flex-grow-1">

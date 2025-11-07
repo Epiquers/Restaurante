@@ -16,7 +16,7 @@ include("seguridad_cliente.php");
 
 <body class="d-flex flex-column min-vh-100">
 
-    <?php include '../includes/navbar_cliente.php'; ?>
+    <?php include 'navbar_cliente.php'; ?>
 
 
     <main class="container mt-4 flex-grow-1">
