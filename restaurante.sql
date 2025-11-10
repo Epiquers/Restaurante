@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2025 a las 17:11:03
+-- Tiempo de generación: 10-11-2025 a las 10:49:03
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -29,21 +29,40 @@ USE `restaurante`;
 -- Estructura de tabla para la tabla `categoria`
 --
 
+DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE `categoria` (
   `idc` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `categoria`
+--
+
+INSERT INTO `categoria` (`idc`, `nombre`) VALUES
+(1, 'bebidas'),
+(2, 'hamburguesas');
+
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `mesa`
+-- Estructura de tabla para la tabla `mesas`
 --
 
-CREATE TABLE `mesa` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `mesas`;
+CREATE TABLE `mesas` (
+  `idm` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `mesas`
+--
+
+INSERT INTO `mesas` (`idm`, `estado`) VALUES
+(1, 0),
+(2, 0),
+(3, 0);
 
 -- --------------------------------------------------------
 
@@ -51,6 +70,7 @@ CREATE TABLE `mesa` (
 -- Estructura de tabla para la tabla `pedidos`
 --
 
+DROP TABLE IF EXISTS `pedidos`;
 CREATE TABLE `pedidos` (
   `idped` int(11) NOT NULL,
   `usuario` varchar(10) NOT NULL,
@@ -65,6 +85,7 @@ CREATE TABLE `pedidos` (
 -- Estructura de tabla para la tabla `pedido_producto`
 --
 
+DROP TABLE IF EXISTS `pedido_producto`;
 CREATE TABLE `pedido_producto` (
   `idped` int(11) NOT NULL,
   `idprod` int(11) NOT NULL,
@@ -77,14 +98,26 @@ CREATE TABLE `pedido_producto` (
 -- Estructura de tabla para la tabla `productos`
 --
 
+DROP TABLE IF EXISTS `productos`;
 CREATE TABLE `productos` (
   `idprod` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `precio` double NOT NULL,
+  `descripcion` varchar(100) NOT NULL,
+  `precio` float NOT NULL,
   `stock` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL,
   `categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`idprod`, `nombre`, `descripcion`, `precio`, `stock`, `estado`, `categoria`) VALUES
+(1, 'La Dorada 5.2%', 'Clásica rubia lager con 5.2% Alc.', 4, 500, 0, 1),
+(2, 'Tres Tristes Tigres 5.8%', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 350, 0, 1),
+(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 100, 0, 2),
+(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 100, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -92,6 +125,7 @@ CREATE TABLE `productos` (
 -- Estructura de tabla para la tabla `reservas`
 --
 
+DROP TABLE IF EXISTS `reservas`;
 CREATE TABLE `reservas` (
   `usuario` varchar(10) NOT NULL,
   `idm` int(11) NOT NULL,
@@ -105,6 +139,7 @@ CREATE TABLE `reservas` (
 -- Estructura de tabla para la tabla `usuarios`
 --
 
+DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE `usuarios` (
   `dni` varchar(10) NOT NULL,
   `nombre` varchar(50) NOT NULL,
@@ -118,6 +153,13 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`dni`, `nombre`, `apellidos`, `telefono`, `direccion`, `email`, `passwd`, `rol`, `estado`) VALUES
+('51234567A', 'Juan', 'Pérez', '666666666', 'Calle Gran Vía 1', 'juanperez@gmail.com', '1234', 3, 0);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -128,10 +170,10 @@ ALTER TABLE `categoria`
   ADD PRIMARY KEY (`idc`);
 
 --
--- Indices de la tabla `mesa`
+-- Indices de la tabla `mesas`
 --
-ALTER TABLE `mesa`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `mesas`
+  ADD PRIMARY KEY (`idm`);
 
 --
 -- Indices de la tabla `pedidos`
@@ -175,16 +217,10 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `categoria`
---
-ALTER TABLE `categoria`
-  MODIFY `idc` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idprod` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idprod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
@@ -195,7 +231,7 @@ ALTER TABLE `productos`
 --
 ALTER TABLE `pedidos`
   ADD CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`idm`) REFERENCES `mesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`idm`) REFERENCES `mesas` (`idm`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `pedido_producto`
@@ -215,7 +251,7 @@ ALTER TABLE `productos`
 --
 ALTER TABLE `reservas`
   ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`usuario`) REFERENCES `usuarios` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`idm`) REFERENCES `mesa` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`idm`) REFERENCES `mesas` (`idm`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

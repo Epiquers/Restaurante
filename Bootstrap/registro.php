@@ -26,6 +26,7 @@ include("includes/conexion.php");
                 <div class="caja p-4 shadow-sm">
                     <h1 class="titulo text-center mb-4">Registro de Cliente</h1>
 
+                    
                     <form action="altas.php" method="POST">
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -65,6 +66,7 @@ include("includes/conexion.php");
                                 <input type="password" class="form-control" id="pass2" name="pass2" required>
                             </div>
                             <?php
+                            // Si las contraseñas no coinciden se muestra un error 
                             if (isset($_SESSION['error'])) {
                                 echo "<div class='text-danger small mt-1'>Las contraseñas no coinciden..</div>";
                                 unset($_SESSION['error']);
