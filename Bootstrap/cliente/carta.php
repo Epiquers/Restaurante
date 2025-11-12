@@ -44,10 +44,11 @@ include("seguridad_cliente.php");
                     // Guardamos el ID de la categoría actual
                     $id_categoria_actual = $categoria['idc'];
 
-                    // Buscamos solo los productos de la categoría actual
-                    $consulta_productos = "SELECT * FROM productos WHERE estado=0 AND categoria = $id_categoria_actual";
+                    // Buscamos solo los productos de la categoría actual que tengan stock
+                    $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual";
                     $result_productos = mysqli_query($conn, $consulta_productos);
-                    
+                    echo mysqli_error($conn);
+
                     // HTML para los productos 
                     echo '<div class="row mb-3 align-items-center">';
                     while ($row = mysqli_fetch_array($result_productos)) {
@@ -59,6 +60,7 @@ include("seguridad_cliente.php");
                             </div>
                             <p class="text-muted small">' . $row['descripcion'] . '</p>
                             <form action="pedido_añadir.php" method="POST">
+                                <input type="hidden" name="precio" value="' . $row['precio'] . '">
                                 <input type="hidden" name="idprod" value="' . $row['idprod'] . '">
                                 <input type="hidden" name="nombre" value="' . $row['nombre'] . '">
                                 <div class="input-group mb-5">
@@ -70,8 +72,8 @@ include("seguridad_cliente.php");
                         ';
                     }
                     echo '</div> 
-                        </div>'; 
-                } 
+                        </div>';
+                }
 
                 // Cerramos la conexión al final de todo
                 mysqli_close($conn);
@@ -106,9 +108,7 @@ include("seguridad_cliente.php");
                         }
                     }
                     ?>
-
                     <hr>
-
                     <form action="pedido_enviar.php" method="POST" class="d-grid">
                         <button class="btn btn-success btn-lg" <?php if (empty($_SESSION['pedido'])) echo 'disabled'; ?>>
                             <span>Enviar Pedido</span>
@@ -124,4 +124,5 @@ include("seguridad_cliente.php");
     <script src="../js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

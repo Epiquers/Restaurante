@@ -1,55 +1,61 @@
 <?php
+// Empezamos la sesión
 session_start();
-include('../includes/conexion.php'); // Incluimos la conexión
 
-// Comprobamos que el carrito NO esté vacío y que el usuario tenga sesión
-if (!empty($_SESSION['pedido']) && isset($_SESSION['dni']) && isset($_SESSION['mesa_id'])) {
+// Iniciamos la conexión
+include('../includes/conexion.php');
 
-    // Recogemos los datos de la sesión
-    $dni_cliente = $_SESSION['dni'];
-    $id_mesa = $_SESSION['mesa_id']; // Usamos 'mesa_id' de la sesión
+// Comprobamos que el carrito no esté vacío
+if (!empty($_SESSION['pedido'])) {
 
-    // --- PASO 1: Insertar el pedido principal ---
-    // (Usamos estado 0 = pendiente)
-    // (Guardamos $id_mesa en la columna 'idm' de la BBDD)
-    $consulta_pedido = "INSERT INTO pedidos (usuario, idm, estado, comentario) 
-                        VALUES ('$dni_cliente', $id_mesa, 0, '')";
-    
-    $resultado = mysqli_query($conn, $consulta_pedido);
+    // Guardamos variable del dni del usuario
+    $dni = $_SESSION['dni'];
 
-    if ($resultado) {
-        // --- PASO 2: Obtener el ID del pedido que acabamos de crear ---
-        $id_pedido_nuevo = mysqli_insert_id($conn);
+    // Obtenemos el id del pedido para poder insertarlo en la tabla pedido_producto
+    $consulta_idpedido = "SELECT * FROM pedidos WHERE usuario='$dni' AND estado=0";
+    $result = mysqli_query($conn, $consulta_idpedido);
 
-        // --- PASO 3: Insertar cada producto del carrito ---
-        foreach ($_SESSION['pedido'] as $producto) {
-            
-            $id_producto = $producto['id']; 
-            $cantidad = 1; 
-            
-            // (Tu BBDD no tiene 'notas' en 'pedido_producto', así que las ignoramos)
-            $consulta_producto = "INSERT INTO pedido_producto (idped, idprod, cant) 
-                                  VALUES ($id_pedido_nuevo, $id_producto, $cantidad)";
-            
-            mysqli_query($conn, $consulta_producto);
-        }
+    $row = mysqli_fetch_assoc($result);
+    $idped = $row['idped'];
 
-        // --- PASO 4: Limpiar el carrito de la sesión ---
-        unset($_SESSION['pedido']);
-        
-        // Redirigimos a la carta
-        header('Location: carta.php?exito=1');
-        exit();
+    // Guardamos variable de sesión del idped para usarlo mas adelante
+    $_SESSION['idped'] = $idped;
 
-    } else {
-        // Error al crear el pedido
-        header('Location: carta.php');
-        exit();
+    //Creamos variable de sesión del precio total si no existe
+    if (!isset($_SESSION['total'])) {
+        $_SESSION['total'] = 0;
     }
 
+    $total_pedido = $_SESSION['total'];
+
+    // Recorremos el carrito 
+    foreach ($_SESSION['pedido'] as $producto) {
+        // Sumamos el total
+        $total_pedido += $producto['precio'];
+
+        // Guardamos los productos del carrito en la tabla pedido_producto
+        $idprod = $producto['id'];
+        $notas = $producto['notas'];
+        $consulta_producto = "INSERT INTO pedido_producto (idped, idprod, comentario, estado) 
+                                  VALUES ('$idped', '$idprod', '$notas', '0')";
+
+        mysqli_query($conn, $consulta_producto);       
+        
+    }
+    mysqli_close($conn);
+
+    // Guardamos el precio total que lleva el pedido
+    $_SESSION['total'] = $total_pedido;
+
+
+    // Limpiamos el carrito
+    unset($_SESSION['pedido']);
+
+    // Redirigimos al pedido actual
+    header('Location: pedido_actual.php');
+    exit();
 } else {
-    // Si entran aquí por error
+    // Si alguien entra a este archivo sin productos o sin sesión
     header('Location: carta.php');
     exit();
 }
-?>

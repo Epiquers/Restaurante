@@ -13,10 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['idprod'])) {
     $lista = array(
         'id' => $_POST['idprod'],
         'nombre' => $_POST['nombre'],
-        'notas' => isset($_POST['notas']) ? $_POST['notas'] : '' // Si 'notas' existe, la guarda, si no, guarda ''
+        'precio' => $_POST['precio'],
+        'notas' => $_POST['notas']
     );
 
-    // Añadimos el producto al final del array de la sesión
+    // Añadimos el producto al final del array 
     $_SESSION['pedido'][] = $lista;
 }
 

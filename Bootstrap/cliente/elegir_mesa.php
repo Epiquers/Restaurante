@@ -13,12 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
 
     $id_mesa = $_POST['mesa'];
     $comensales = $_POST['comensales'];
+    $dni = $_SESSION['dni'];
+ 
+    // Iniciamos la conexión
+    include("../includes/conexion.php");
 
     // Cambiamos estado de la mesa a ocupada
-    include("../includes/conexion.php");
-    $consulta ="UPDATE mesas SET estado=1 WHERE idm=$id_mesa";
-    mysqli_query($conn, $consulta);
-    echo mysqli_error($conn);
+    $consulta_mesa = "UPDATE mesas SET estado=1 WHERE idm=$id_mesa";
+    mysqli_query($conn, $consulta_mesa);
+
+    // Realizamos la reserva
+    $consulta_reserva = "INSERT INTO reservas (usuario, idm, comensales) VALUES ('$dni','$id_mesa','$comensales')";
+    mysqli_query($conn, $consulta_reserva);
+  
+    // Insertamos los datos del pedido
+    $consulta_pedido = "INSERT INTO pedidos (usuario, estado, idm) VALUES ('$dni', 0, '$id_mesa')";
+    mysqli_query($conn, $consulta_pedido);
+
+    // Cerramos la conexión
     mysqli_close($conn);
 
     // Guardamos la mesa y los comensales en la sesión del cliente
@@ -46,8 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
 
 <body class="d-flex flex-column min-vh-100">
 
-    <?php 
-    include ('../includes/header.php'); 
+    <?php
+    include('../includes/header.php');
     include("navbar_mesas.php");
     ?>
 
@@ -66,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
                                 <?php
                                 include("../includes/conexion.php");
 
-                                $consulta = "SELECT * FROM mesas WHERE estado=0";
-                                $result = mysqli_query($conn, $consulta);
+                                $consulta_mesalibre = "SELECT * FROM mesas WHERE estado=0";
+                                $result = mysqli_query($conn, $consulta_mesalibre);
 
                                 while ($row = mysqli_fetch_array($result)) {
                                     echo "<option value='" . $row['idm'] . "'>Mesa " . $row['idm'] . "</option>";

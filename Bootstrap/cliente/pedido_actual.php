@@ -1,24 +1,6 @@
 <?php
-// session_start();
-//
-// AQUÍ VA TU CÓDIGO DE SEGURIDAD
-// (Comprobar rol de cliente)
-//
-// AQUÍ VA TU LÓGICA PHP
-//
-// 1. Lógica para procesar la petición de la cuenta
-// if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirmar_cuenta'])) {
-//    // AQUÍ VA LA MAGIA (SPRINT 3)
-//    $_SESSION['cuenta_pedida'] = true;
-// }
-//
-// 2. Lógica para mostrar la página
-// $productos_enviados = ... (Consultar BBDD para la tabla)
-// $total_cuenta = ...
-// $cuenta_ya_pedida = isset($_SESSION['cuenta_pedida']) && $_SESSION['cuenta_pedida'] == true;
-//
-// Simulación para el ejemplo:
-$cuenta_ya_pedida = false;
+session_start();
+include("seguridad_cliente.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -42,9 +24,9 @@ $cuenta_ya_pedida = false;
 
     <main class="container mt-4 flex-grow-1">
 
-        <h1 class="titulo">Resumen de mi Pedido (Mesa <?php /* echo $_SESSION['mesa_id']; */ ?>)</h1>
+        <h1 class="titulo">Resumen de mi Pedido (Mesa <?php echo $_SESSION['mesa_id']; ?>)</h1>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mb-5">
             <div class="col-lg-10">
                 <div class="caja">
 
@@ -62,29 +44,51 @@ $cuenta_ya_pedida = false;
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Costillar BBQ</td>
-                                    <td>-</td>
-                                    <td><span class="badge bg-success">Servido</span></td>
-                                    <td>18.00 €</td>
-                                </tr>
-                                <tr>
-                                    <td>Refresco de Cola</td>
-                                    <td>Sin hielo</td>
-                                    <td><span class="badge bg-success">Servido</span></td>
-                                    <td>3.50 €</td>
-                                </tr>
-                                <tr>
-                                    <td>Hamburguesa "Brasa"</td>
-                                    <td>Sin pepinillos</td>
-                                    <td><span class="badge bg-success">Servido</span></td>
-                                    <td>12.50 €</td>
-                                </tr>
+                                <?php
+                                include("../includes/conexion.php");
+
+                                $dni = $_SESSION['dni'];
+                                $idped = $_SESSION['idped'];
+                                $total = $_SESSION['total'];
+
+                                // Realizamos consulta de la tabla pedido_producto
+                                $consulta_pp = "SELECT * FROM pedido_producto WHERE idped=$idped";
+                                $result1 = mysqli_query($conn, $consulta_pp);
+
+                                if (mysqli_num_rows($result1) > 0) {
+                                    while ($row1 = mysqli_fetch_array($result1)) {
+                                        // Hacemos consulta para conseguir el nombre del producto
+                                        $idprod=$row1['idprod'];
+                                        $consulta_productos = "SELECT * FROM productos WHERE idprod='$idprod'";
+                                        $result2 = mysqli_query($conn, $consulta_productos);
+
+                                        $row2 = mysqli_fetch_assoc($result2);
+                                        $nombre = $row2['nombre'];
+                                        $precio = $row2['precio'];
+
+                                        // Guardamos la variable del estado de cada producto, poniendole el estado en que se encuentra
+                                        if($row1['estado']==0){
+                                            $estado = 'Pendiente';
+                                            $color = 'danger';
+                                        }else{
+                                            $estado = 'Servido';
+                                            $color = 'success';
+                                        }
+                                        echo "<tr>";
+                                            echo "<td>" . ($nombre) . "</td>";
+                                            echo "<td>" . ($row1['comentario']) . "</td>";
+                                            echo "<td><span class='badge bg-" . $color . "'>" . ($estado) . "</td>";
+                                            echo "<td>" . number_format($precio,2) . " €</td>";
+                                        echo "</tr>";
+                                    }
+                                }
+                                mysqli_close($conn);
+                                ?>
                             </tbody>
                             <tfoot>
                                 <tr class="border-top">
                                     <td colspan="3" class="text-end h5" style="vertical-align: middle;">Total a Pagar:</td>
-                                    <td class="h4 text-warning">34.00 €</td>
+                                    <td class="h4 text-warning"><?php echo number_format($_SESSION['total'], 2) . " €"; ?></td>
                                 </tr>
                             </tfoot>
                         </table>

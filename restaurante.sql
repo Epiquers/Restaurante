@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2025 a las 10:49:03
+-- Tiempo de generación: 12-11-2025 a las 19:29:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -60,7 +60,7 @@ CREATE TABLE `mesas` (
 --
 
 INSERT INTO `mesas` (`idm`, `estado`) VALUES
-(1, 0),
+(1, 1),
 (2, 0),
 (3, 0);
 
@@ -73,9 +73,9 @@ INSERT INTO `mesas` (`idm`, `estado`) VALUES
 DROP TABLE IF EXISTS `pedidos`;
 CREATE TABLE `pedidos` (
   `idped` int(11) NOT NULL,
+  `fechaHora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `usuario` varchar(10) NOT NULL,
-  `estado` tinyint(1) NOT NULL,
-  `comentario` varchar(100) NOT NULL,
+  `estado` tinyint(1) NOT NULL COMMENT '0 - pendiente\r\n1- pagado',
   `idm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -87,9 +87,11 @@ CREATE TABLE `pedidos` (
 
 DROP TABLE IF EXISTS `pedido_producto`;
 CREATE TABLE `pedido_producto` (
+  `id_linea` int(11) NOT NULL,
   `idped` int(11) NOT NULL,
   `idprod` int(11) NOT NULL,
-  `cant` int(11) NOT NULL
+  `comentario` varchar(100) NOT NULL,
+  `estado` tinyint(1) NOT NULL COMMENT '0 - pendiente\r\n1 - servido'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -132,6 +134,13 @@ CREATE TABLE `reservas` (
   `fechahora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `comensales` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `reservas`
+--
+
+INSERT INTO `reservas` (`usuario`, `idm`, `fechahora`, `comensales`) VALUES
+('51234567A', 1, '2025-11-12 18:08:08', 4);
 
 -- --------------------------------------------------------
 
@@ -187,7 +196,7 @@ ALTER TABLE `pedidos`
 -- Indices de la tabla `pedido_producto`
 --
 ALTER TABLE `pedido_producto`
-  ADD PRIMARY KEY (`idped`,`idprod`),
+  ADD PRIMARY KEY (`id_linea`),
   ADD KEY `idped` (`idped`),
   ADD KEY `idprod` (`idprod`);
 
@@ -215,6 +224,18 @@ ALTER TABLE `usuarios`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `pedidos`
+--
+ALTER TABLE `pedidos`
+  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pedido_producto`
+--
+ALTER TABLE `pedido_producto`
+  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
