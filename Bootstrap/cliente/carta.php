@@ -68,8 +68,7 @@ include("seguridad_cliente.php");
                                     <button type="submit" class="btn btn-primary btn-sm">Añadir</button>
                                 </div>
                             </form>
-                        </div>
-                        ';
+                        </div>';
                     }
                     echo '</div> 
                         </div>';

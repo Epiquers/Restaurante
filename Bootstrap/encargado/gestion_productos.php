@@ -33,17 +33,9 @@
                 <h2>Añadir Nuevo Producto</h2>
                 <form action="gestion_productos.php" method="POST" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-12 mb-3">
                             <label for="nombre" class="form-label">Nombre Producto</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="categoria" class="form-label">Categoría</label>
-                            <select class="form-select" id="categoria" name="categoria" required>
-                                <option value="1">Hamburguesas</option>
-                                <option value="2">Parrilla</option>
-                                <option value="3">Cervezas</option>
-                            </select>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -52,17 +44,29 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
+                            <label for="categoria" class="form-label">Categoría</label>
+                            <select class="form-select" id="categoria" name="categoria" required>
+                                <?php
+                                include("../includes/conexion.php");
+
+                                $consulta = "SELECT * FROM categoria";
+                                $result = mysqli_query($conn, $consulta);
+
+                                while ($row = mysqli_fetch_array($result)) {
+                                    echo "<option value='" . $row['idc'] . "'>" . $row['nombre'] . "</option>";
+                                }
+                                mysqli_close($conn);
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <label for="precio" class="form-label">Precio (€)</label>
                             <input type="number" class="form-control" id="precio" name="precio" step="0.01" required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="stock" class="form-label">Stock Actual</label>
                             <input type="number" class="form-control" id="stock" name="stock" required>
-                        </div>
-                         <div class="col-md-4 mb-3">
-                            <label for="foto" class="form-label">Foto Producto</label>
-                            <input type="file" class="form-control" id="foto" name="foto">
-                        </div>
+                        </div>  
                     </div>
                     <button type="submit" class="btn btn-primary">Guardar Producto</button>
                 </form>
