@@ -17,10 +17,9 @@ include("seguridad_cliente.php");
 
 <body class="d-flex flex-column min-vh-100">
 
+    <!-- Incluímos cabecera y navbar -->
     <?php include '../includes/header.php'; ?>
-
     <?php include 'navbar_cliente.php'; ?>
-
 
     <main class="container mt-4 flex-grow-1">
 
@@ -88,7 +87,7 @@ include("seguridad_cliente.php");
                             <tfoot>
                                 <tr class="border-top">
                                     <td colspan="3" class="text-end h5" style="vertical-align: middle;">Total a Pagar:</td>
-                                    <td class="h4 text-warning"><?php echo number_format($_SESSION['total'], 2) . " €"; ?></td>
+                                    <td class="h4 text-warning"><?php echo number_format($total, 2) . " €"; ?></td>
                                 </tr>
                             </tfoot>
                         </table>

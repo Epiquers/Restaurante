@@ -16,6 +16,9 @@ include("seguridad_cliente.php");
 
 <body class="d-flex flex-column min-vh-100">
 
+    <!-- Incluímos cabecera y navbar -->
+    <?php include '../includes/header.php'; ?>
+
     <?php include 'navbar_cliente.php'; ?>
 
 
@@ -29,7 +32,7 @@ include("seguridad_cliente.php");
                 <!-- Formulario de búsqueda -->
                 <form method="GET" class="mb-4">
                     <div class="input-group">
-                        <input type="text" name="buscar" class="form-control" placeholder="Buscar producto..." value="<?php echo isset($_GET['buscar']) ? ($_GET['buscar']) : ''; ?>">
+                        <input type="text" name="buscar" class="form-control" placeholder="Buscar producto...">
                         <button class="btn btn-primary" type="submit">Buscar</button>
                     </div>
                 </form>
@@ -38,54 +41,85 @@ include("seguridad_cliente.php");
                 // Conexión
                 include("../includes/conexion.php");
 
-                // Buscamos todas las categorías 
-                $consulta_categorias = "SELECT * FROM categoria";
-                $result_categorias = mysqli_query($conn, $consulta_categorias);
+                // Si el cliente busca algún producto a través del buscador entra en este if
+                if (isset($_GET['buscar']) && $_GET['buscar']!=="") {
+                    // Hacemos consulta del producto que busca el cliente
+                    $nom = $_GET['buscar'];
 
-                // Recorremos cada categoría (Bebidas, Hamburguesas, etc.)
-                while ($categoria = mysqli_fetch_array($result_categorias)) {
+                    $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND nombre LIKE '%$nom%'";
 
-                    // Imprimimos el título de la categoría
-                    echo '<div class="caja mb-4">';
-                    echo '<h2 class="border-bottom pb-2">' . $categoria['nombre'] . '</h2>';
-
-                    // Guardamos el ID de la categoría actual
-                    $id_categoria_actual = $categoria['idc'];
-
-                    if (isset($_GET['buscar'])) {
-                        // Hacemos consulta del producto que busca el cliente
-                        $nom = $_GET['buscar'];
-                        $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual AND nombre LIKE '%$nom%'";
-                    } else {
-                        // Buscamos solo los productos de la categoría actual que tengan stock
-                        $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual";
-                    }
                     $result_productos = mysqli_query($conn, $consulta_productos);
 
+                    // HTML para los productos
+                    echo '<div class="caja mb-4">';
+                        echo '<div class="row mb-3 align-items-center">';
+                        while ($row = mysqli_fetch_array($result_productos)) {
+                            echo '
+                                <div class="col-12 mb-0">
+                                    <div class="d-flex justify-content-between">
+                                        <h4 class="h5 mb-0">' . $row['nombre'] . '</h4>
+                                        <span class="h5 text-warning">' . number_format($row['precio'], 2) . ' €</span>
+                                    </div>
+                                    <p class="text-muted small">' . $row['descripcion'] . '</p>
+                                    <form action="pedido_añadir.php" method="POST">
+                                        <input type="hidden" name="precio" value="' . $row['precio'] . '">
+                                        <input type="hidden" name="idprod" value="' . $row['idprod'] . '">
+                                        <input type="hidden" name="nombre" value="' . $row['nombre'] . '">
+                                        <div class="input-group mb-5">
+                                            <input type="text" name="notas" class="form-control form-control-sm" placeholder="Notas (ej: sin tomate, al punto...)">
+                                            <button type="submit" class="btn btn-primary btn-sm">Añadir</button>
+                                        </div>
+                                    </form>
+                                </div>';
+                        }
+                        echo '</div>';
+                    echo '</div>';
+                } else {
+                    // Buscamos todas las categorías 
+                    $consulta_categorias = "SELECT * FROM categoria";
+                    $result_categorias = mysqli_query($conn, $consulta_categorias);
 
-                    // HTML para los productos 
-                    echo '<div class="row mb-3 align-items-center">';
-                    while ($row = mysqli_fetch_array($result_productos)) {
-                        echo '
-                        <div class="col-12">
-                            <div class="d-flex justify-content-between">
-                                <h4 class="h5 mb-0">' . $row['nombre'] . '</h4>
-                                <span class="h5 text-warning">' . number_format($row['precio'], 2) . ' €</span>
-                            </div>
-                            <p class="text-muted small">' . $row['descripcion'] . '</p>
-                            <form action="pedido_añadir.php" method="POST">
-                                <input type="hidden" name="precio" value="' . $row['precio'] . '">
-                                <input type="hidden" name="idprod" value="' . $row['idprod'] . '">
-                                <input type="hidden" name="nombre" value="' . $row['nombre'] . '">
-                                <div class="input-group mb-5">
-                                    <input type="text" name="notas" class="form-control form-control-sm" placeholder="Notas (ej: sin tomate, al punto...)">
-                                    <button type="submit" class="btn btn-primary btn-sm">Añadir</button>
-                                </div>
-                            </form>
-                        </div>';
+                    // Recorremos cada categoría (Bebidas, Hamburguesas, etc.)
+                    while ($categoria = mysqli_fetch_array($result_categorias)) {
+
+                        // Imprimimos el título de la categoría
+                        echo '<div class="caja mb-4">';
+                        echo '<h2 class="border-bottom pb-2">' . $categoria['nombre'] . '</h2>';
+
+                        // Guardamos el ID de la categoría actual
+                        $id_categoria_actual = $categoria['idc'];
+
+
+                        // Buscamos solo los productos de la categoría actual que tengan stock
+                        $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual";
+
+
+                        $result_productos = mysqli_query($conn, $consulta_productos);
+
+                        // HTML para los productos 
+                        echo '<div class="row mb-3 align-items-center">';
+                            while ($row = mysqli_fetch_array($result_productos)) {
+                                echo '
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-between">
+                                            <h4 class="h5 mb-0">' . $row['nombre'] . '</h4>
+                                            <span class="h5 text-warning">' . number_format($row['precio'], 2) . ' €</span>
+                                        </div>
+                                        <p class="text-muted small">' . $row['descripcion'] . '</p>
+                                        <form action="pedido_añadir.php" method="POST">
+                                            <input type="hidden" name="precio" value="' . $row['precio'] . '">
+                                            <input type="hidden" name="idprod" value="' . $row['idprod'] . '">
+                                            <input type="hidden" name="nombre" value="' . $row['nombre'] . '">
+                                            <div class="input-group mb-5">
+                                                <input type="text" name="notas" class="form-control form-control-sm" placeholder="Notas (ej: sin tomate, al punto...)">
+                                                <button type="submit" class="btn btn-primary btn-sm">Añadir</button>
+                                            </div>
+                                        </form>
+                                    </div>';
+                            }
+                            echo '</div>';
+                        echo '</div>';
                     }
-                    echo '</div> 
-                        </div>';
                 }
 
                 // Cerramos la conexión al final de todo

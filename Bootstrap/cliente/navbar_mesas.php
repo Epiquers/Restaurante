@@ -10,7 +10,7 @@
       
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
          <li class="nav-item">
-            <a class="nav-link" href="../logout.php">Hola, [Nombre] (Cerrar Sesión)</a>
+            <a class="nav-link" href="../logout.php">Hola, <?php echo $_SESSION['nombre'] ?> (Cerrar Sesión)</a>
         </li>
       </ul>
 

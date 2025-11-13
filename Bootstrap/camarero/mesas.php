@@ -47,7 +47,7 @@ session_start();
                             </div>'; break;
                     case 1:
                         echo '<div class="col-md-4 col-lg-3 mb-4">
-                                <a href="detalle_mesa.php?'. $mesa .'" class="text-decoration-none">
+                                <a href="detalle_mesa.php?id='. $mesa .'" class="text-decoration-none">
                                 <div class="caja text-center border border-danger">
                                     <h2 class="h4">Mesa ' . $mesa . '</h2>
                                     <p class="h5 fw-bold text-danger">OCUPADA</p>

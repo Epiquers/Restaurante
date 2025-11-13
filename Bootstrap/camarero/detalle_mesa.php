@@ -1,23 +1,19 @@
 <?php
 session_start();
 // include("seguridad_camarero.php");
+include("../includes/conexion.php");
 
-// 1. OBTENER EL ID DE LA MESA DESDE LA URL (GET)
-if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+// Guardamos el id enviado por GET
+if (isset($_GET['id'])) {
     $id_mesa = $_GET['id'];
-} else {
-    // Si no hay ID válido, lo mandamos de vuelta al panel
-    header('Location: mesas.php?error=no_mesa');
-    exit();
 }
 
-// 2. LÓGICA PHP (PROCESAR ACCIONES POST)
-//
-// Si el camarero marca un producto como "servido"
+
+// Cambiamos el estado de los productos que marca el camarero como servidos
 if (isset($_POST['marcar_servido'])) {
-    $id_producto_pedido = $_POST['id_producto_pedido'];
-    // LÓGICA DE BBDD: UPDATE productos_pedidos SET estado = 'servido' WHERE id = $id_producto_pedido
-    //...
+    $id_linea = $_POST['id_linea'];
+    $consulta_estado = "UPDATE pedido_producto SET estado = '1' WHERE id_linea = $id_linea";
+    mysqli_query($conn, $consulta_estado);
 }
 
 // Si el camarero pulsa "Generar Cuenta"
@@ -51,11 +47,12 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle Mesa <?php echo $id_mesa; ?> - Grill & Growler</title>
-    
+
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -78,10 +75,10 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
 
         <div class="row">
             <div class="col-lg-8">
-                <div class="caja">
+                <div class="caja mb-5">
                     <h2>Productos Pedidos</h2>
                     <p class="text-muted">Marcar los productos como "servidos" a medida que se entregan.</p>
-                    
+
                     <div class="table-responsive">
                         <table class="table table-dark table-striped table-hover">
                             <thead>
@@ -89,40 +86,79 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                                     <th>Producto</th>
                                     <th>Notas</th>
                                     <th>Estado</th>
-                                    <th>Acción (usando POST)</th>
+                                    <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Hamburguesa "Brasa"</td>
-                                    <td>Sin pepinillos</td>
-                                    <td><span class="badge bg-warning">Pedido</span></td>
-                                    <td>
-                                        <form action="detalle_mesa.php?id=<?php echo $id_mesa; ?>" method="POST">
-                                            <input type="hidden" name="id_producto_pedido" value="101">
-                                            <button type="submit" name="marcar_servido" class="btn btn-success btn-sm">Marcar Servido</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>IPA "Growler"</td>
-                                    <td>-</td>
-                                    <td><span class="badge bg-success">Servido</span></td>
-                                    <td><span class="text-muted">- Ya servido -</span></td>
-                                </tr>
+                                <?php
+                                include("../includes/conexion.php");
+
+                                // Variables de sesión
+                                $dni = $_SESSION['dni'];
+                                $idped = $_SESSION['idped'];
+                                $total = $_SESSION['total'];
+
+                                // Realizamos consulta de la tabla pedido_producto
+                                $consulta_pp = "SELECT * FROM pedido_producto WHERE idped=$idped";
+                                $result1 = mysqli_query($conn, $consulta_pp);
+
+                                if (mysqli_num_rows($result1) > 0) {
+                                    while ($row1 = mysqli_fetch_array($result1)) {
+                                        // Hacemos consulta para conseguir el nombre del producto
+                                        $idprod = $row1['idprod'];
+                                        $id_linea = $row1['id_linea'];
+                                        $consulta_productos = "SELECT * FROM productos WHERE idprod='$idprod'";
+                                        $result2 = mysqli_query($conn, $consulta_productos);
+
+                                        $row2 = mysqli_fetch_assoc($result2);
+                                        $nombre = $row2['nombre'];
+
+                                        // Guardamos la variable del estado de cada producto, poniendole el estado en que se encuentra
+                                        if ($row1['estado'] == 0) {
+                                            $estado = 'Pendiente';
+                                            $color = 'danger';
+                                            $servido = false;
+                                        } else {
+                                            $estado = 'Servido';
+                                            $color = 'success';
+                                            $servido = true;
+                                        }
+                                        echo "<tr>";
+                                        echo "<td>" . ($nombre) . "</td>";
+                                        echo "<td>" . ($row1['comentario']) . "</td>";
+                                        echo "<td><span class='badge bg-" . $color . "'>" . ($estado) . "</td>";
+                                        echo "<td>
+                                                <form action='detalle_mesa.php' method='POST'>
+                                                <input type='hidden' name='id_linea' value='$id_linea'>";
+                                        if (!$servido) {
+                                            echo "<button type='submit' name='marcar_servido' class='btn btn-success btn-sm'>Marcar Servido</button>";
+                                        } else {
+                                            echo "<button type='submit' name='marcar_servido' class='btn btn-danger btn-sm' disabled>Servido</button>";
+                                            
+                                        }
+
+                                        echo "</form>
+                                            </td>";
+                                        echo "</tr>";
+                                    }
+                                }
+                                mysqli_close($conn);
+                                ?>
+
                             </tbody>
                         </table>
                     </div>
                 </div>
-            </div> <div class="col-lg-4">
-                
+            </div>
+            <div class="col-lg-4">
+
                 <?php
                 // --- CÓDIGO CON SINTAXIS ESTÁNDAR (CON LLAVES {}) ---
-                
+
                 // (La variable $estado_mesa se ha obtenido en el PHP de arriba)
-                
+
                 if ($estado_mesa == 'pidiendo_cuenta') {
-                    
+
                     // VISTA 1: Si ya se pidió la cuenta
                     // Mostramos el HTML del botón ROJO (Pagar)
                     echo '
@@ -137,9 +173,8 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                             </div>
                         </form>
                     </div>';
-
                 } else {
-                    
+
                     // VISTA 2: Si la mesa está normal (comiendo)
                     // Mostramos el HTML del botón NARANJA (Pedir Cuenta)
                     echo '
@@ -154,15 +189,17 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                             </div>
                         </form>
                     </div>';
-                    
                 } // Fin del else
                 ?>
 
-            </div> </div> </main>
+            </div>
+        </div>
+    </main>
 
     <?php include '../includes/footer.php'; ?>
 
     <script src="../js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

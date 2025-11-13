@@ -20,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $row = mysqli_fetch_assoc($result);
 
             $_SESSION['rol'] = $row['rol'];
-            $_SESSION['dni'] = $row['dni'];            
+            $_SESSION['dni'] = $row['dni'];
+            $_SESSION['nombre'] = $row['nombre'];                        
 
             // Redirigimos según el rol
             switch ($_SESSION['rol']) {

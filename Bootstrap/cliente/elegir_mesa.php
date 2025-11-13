@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
 
 <body class="d-flex flex-column min-vh-100">
 
+    <!-- Incluímos cabecera y navbar -->
     <?php
     include('../includes/header.php');
     include("navbar_mesas.php");
