@@ -26,6 +26,14 @@ include("seguridad_cliente.php");
             <div class="col-lg-8">
                 <h1 class="titulo">Nuestra Carta</h1>
 
+                <!-- Formulario de búsqueda -->
+                <form method="GET" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="buscar" class="form-control" placeholder="Buscar producto..." value="<?php echo isset($_GET['buscar']) ? ($_GET['buscar']) : ''; ?>">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </form>
+
                 <?php
                 // Conexión
                 include("../includes/conexion.php");
@@ -44,10 +52,16 @@ include("seguridad_cliente.php");
                     // Guardamos el ID de la categoría actual
                     $id_categoria_actual = $categoria['idc'];
 
-                    // Buscamos solo los productos de la categoría actual que tengan stock
-                    $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual";
+                    if (isset($_GET['buscar'])) {
+                        // Hacemos consulta del producto que busca el cliente
+                        $nom = $_GET['buscar'];
+                        $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual AND nombre LIKE '%$nom%'";
+                    } else {
+                        // Buscamos solo los productos de la categoría actual que tengan stock
+                        $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual";
+                    }
                     $result_productos = mysqli_query($conn, $consulta_productos);
-                    echo mysqli_error($conn);
+
 
                     // HTML para los productos 
                     echo '<div class="row mb-3 align-items-center">';
@@ -85,6 +99,10 @@ include("seguridad_cliente.php");
                     <h2 class="h4">Mi Pedido (Mesa <?php echo $_SESSION['mesa_id']; ?>)</h2>
 
                     <?php
+                    if (isset($_GET['error'])) {
+                        echo "<div class='alert text-danger pb-0 small'> Lo sentimos, el producto se ha agotado.. </div>";
+                        unset($_GET['error']);
+                    }
                     // Comprobamos si el carrito está vacío
                     if (empty($_SESSION['pedido'])) {
 
@@ -103,9 +121,11 @@ include("seguridad_cliente.php");
                             echo '</div>';
 
                             // El botón de borrar
-                            echo '  <a href="pedido_borrar.php?id=' . $indice . '" class="btn btn-danger btn-sm">X</a></div>';
+                            echo '  <a href="pedido_borrar.php?id=' . $indice . '&idprod=' . $producto['id'] . '" class="btn btn-danger btn-sm">X</a></div>';
                         }
                     }
+
+
                     ?>
                     <hr>
                     <form action="pedido_enviar.php" method="POST" class="d-grid">
