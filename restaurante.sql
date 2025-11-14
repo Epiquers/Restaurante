@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2025 a las 19:29:42
+-- Tiempo de generación: 14-11-2025 a las 15:34:16
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -32,16 +32,18 @@ USE `restaurante`;
 DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE `categoria` (
   `idc` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL
+  `nombre` varchar(50) NOT NULL,
+  `estado` tinyint(1) NOT NULL COMMENT '0 - habilitado\r\n1 - deshabilitado'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `categoria`
 --
 
-INSERT INTO `categoria` (`idc`, `nombre`) VALUES
-(1, 'bebidas'),
-(2, 'hamburguesas');
+INSERT INTO `categoria` (`idc`, `nombre`, `estado`) VALUES
+(1, 'Bebidas', 0),
+(2, 'Hamburguesas', 0),
+(3, 'Postres2', 1);
 
 -- --------------------------------------------------------
 
@@ -79,6 +81,13 @@ CREATE TABLE `pedidos` (
   `idm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `pedidos`
+--
+
+INSERT INTO `pedidos` (`idped`, `fechaHora`, `usuario`, `estado`, `idm`) VALUES
+(6, '2025-11-14 14:31:01', '51234567A', 0, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -108,18 +117,20 @@ CREATE TABLE `productos` (
   `precio` float NOT NULL,
   `stock` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL,
-  `categoria` int(11) NOT NULL
+  `categoria` int(11) NOT NULL,
+  `estado_cat` tinyint(1) NOT NULL COMMENT '0 - activa\r\n1 - bloqueada'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `productos`
 --
 
-INSERT INTO `productos` (`idprod`, `nombre`, `descripcion`, `precio`, `stock`, `estado`, `categoria`) VALUES
-(1, 'La Dorada 5.2%', 'Clásica rubia lager con 5.2% Alc.', 4, 500, 0, 1),
-(2, 'Tres Tristes Tigres 5.8%', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 350, 0, 1),
-(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 100, 0, 2),
-(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 100, 0, 2);
+INSERT INTO `productos` (`idprod`, `nombre`, `descripcion`, `precio`, `stock`, `estado`, `categoria`, `estado_cat`) VALUES
+(1, 'La Dorada 5.2%', 'Clásica rubia lager con 5.2% Alc.', 4, 300, 0, 1, 0),
+(2, 'Tres Tristes Tigres 5.8%', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 349, 0, 1, 0),
+(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 100, 0, 2, 0),
+(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 100, 0, 2, 0),
+(5, 'Marcen 5.6%', 'Cerveza tostada con 5.6% Alc.', 5, 150, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -140,7 +151,7 @@ CREATE TABLE `reservas` (
 --
 
 INSERT INTO `reservas` (`usuario`, `idm`, `fechahora`, `comensales`) VALUES
-('51234567A', 1, '2025-11-12 18:08:08', 4);
+('51234567A', 1, '2025-11-14 14:31:01', 5);
 
 -- --------------------------------------------------------
 
@@ -226,22 +237,28 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `categoria`
+--
+ALTER TABLE `categoria`
+  MODIFY `idc` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido_producto`
 --
 ALTER TABLE `pedido_producto`
-  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idprod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idprod` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
