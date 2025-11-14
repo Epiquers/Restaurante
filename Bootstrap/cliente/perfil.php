@@ -1,3 +1,8 @@
+<?php
+session_start();
+include("seguridad_cliente.php");
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,6 +18,7 @@
 
 <body class="d-flex flex-column min-vh-100">
 
+    <!-- Incluímos cabecera y navbar -->
     <?php include '../includes/header.php'; ?>
 
     <?php include 'navbar_cliente.php'; ?>

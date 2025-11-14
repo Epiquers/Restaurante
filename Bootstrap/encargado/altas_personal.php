@@ -2,7 +2,7 @@
 // Iniciamos variables de sesión
 session_start();
 // Estableciendo la conexión
-include("includes/conexion.php");
+include("../includes/conexion.php");
 // Recogida de datos
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dni = $_POST['dni'];
@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_query($conn, $consulta);
         // Redireccionamos a la web listados (este fichero lo debeis de crar vosotros)
         mysqli_close($conn);
-        header("LOCATION:index.php");
+        header("LOCATION:gestion_personal.php");
+        exit();
     }
 }
+?>

@@ -76,7 +76,7 @@ include("seguridad_cliente.php");
                     echo '</div>';
                 } else {
                     // Buscamos todas las categorías 
-                    $consulta_categorias = "SELECT * FROM categoria";
+                    $consulta_categorias = "SELECT * FROM categoria WHERE estado='0'";
                     $result_categorias = mysqli_query($conn, $consulta_categorias);
 
                     // Recorremos cada categoría (Bebidas, Hamburguesas, etc.)
@@ -91,7 +91,7 @@ include("seguridad_cliente.php");
 
 
                         // Buscamos solo los productos de la categoría actual que tengan stock
-                        $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND categoria = $id_categoria_actual";
+                        $consulta_productos = "SELECT * FROM productos WHERE stock>0 AND estado=0 AND estado_cat=0 AND categoria = $id_categoria_actual";
 
 
                         $result_productos = mysqli_query($conn, $consulta_productos);
@@ -132,6 +132,7 @@ include("seguridad_cliente.php");
                 <div class="caja sticky-top" style="top: 80px;">
                     <h2 class="h4">Mi Pedido (Mesa <?php echo $_SESSION['mesa_id']; ?>)</h2>
 
+                    <!-- Si no queda stock de un producto se muestra mensaje al intentar pedirlo -->
                     <?php
                     if (isset($_GET['error'])) {
                         echo "<div class='alert text-danger pb-0 small'> Lo sentimos, el producto se ha agotado.. </div>";

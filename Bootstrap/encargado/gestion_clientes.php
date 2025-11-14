@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 //include("seguridad_encargado.php");
 ?>
 <!DOCTYPE html>
@@ -15,6 +15,9 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+
+    <!-- Incluímos cabecera y navbar -->
+    <?php include '../includes/header.php'; ?>
 
     <?php include 'navbar_encargado.php'; ?>
 

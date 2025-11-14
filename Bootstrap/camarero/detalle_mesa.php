@@ -130,12 +130,12 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                                         echo "<td>
                                                 <form action='detalle_mesa.php' method='POST'>
                                                 <input type='hidden' name='id_linea' value='$id_linea'>";
-                                        if (!$servido) {
-                                            echo "<button type='submit' name='marcar_servido' class='btn btn-success btn-sm'>Marcar Servido</button>";
-                                        } else {
-                                            echo "<button type='submit' name='marcar_servido' class='btn btn-danger btn-sm' disabled>Servido</button>";
-                                            
-                                        }
+                                                    if (!$servido) {
+                                                        echo "<button type='submit' name='marcar_servido' class='btn btn-success btn-sm'>Marcar Servido</button>";
+                                                    } else {
+                                                        echo "<button type='submit' name='marcar_servido' class='btn btn-danger btn-sm' disabled>Servido</button>";
+                                                        
+                                                    }
 
                                         echo "</form>
                                             </td>";
