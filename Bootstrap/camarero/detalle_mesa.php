@@ -1,6 +1,6 @@
 <?php
 session_start();
-// include("seguridad_camarero.php");
+include("seguridad_camarero.php");
 include("../includes/conexion.php");
 
 // Guardamos el id enviado por GET
@@ -70,7 +70,6 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
             <h1 class="titulo" style="margin-top:0; margin-bottom: 20px;">
                 Gestionando Mesa <?php echo $id_mesa; ?>
             </h1>
-            <a href="mesas.php" class="btn btn-secondary">Volver al Panel</a>
         </div>
 
         <div class="row">
@@ -94,9 +93,12 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                                 include("../includes/conexion.php");
 
                                 // Variables de sesión
-                                $dni = $_SESSION['dni'];
-                                $idped = $_SESSION['idped'];
-                                $total = $_SESSION['total'];
+                                // Consulta para ver los comensales de cada mesa reservada activa
+                                $consulta_pedidos = "SELECT * FROM pedidos WHERE idm='$id_mesa' AND estado='0'";
+                                $result3 = mysqli_query($conn, $consulta_pedidos);
+                                echo mysqli_error($conn);
+                                $row3 = mysqli_fetch_array($result3);
+                                $idped = $row3['idped'];
 
                                 // Realizamos consulta de la tabla pedido_producto
                                 $consulta_pp = "SELECT * FROM pedido_producto WHERE idped=$idped";
@@ -128,14 +130,13 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                                         echo "<td>" . ($row1['comentario']) . "</td>";
                                         echo "<td><span class='badge bg-" . $color . "'>" . ($estado) . "</td>";
                                         echo "<td>
-                                                <form action='detalle_mesa.php' method='POST'>
+                                                <form action='detalle_mesa.php?id=" . $id_mesa . "' method='POST'>
                                                 <input type='hidden' name='id_linea' value='$id_linea'>";
-                                                    if (!$servido) {
-                                                        echo "<button type='submit' name='marcar_servido' class='btn btn-success btn-sm'>Marcar Servido</button>";
-                                                    } else {
-                                                        echo "<button type='submit' name='marcar_servido' class='btn btn-danger btn-sm' disabled>Servido</button>";
-                                                        
-                                                    }
+                                        if (!$servido) {
+                                            echo "<button type='submit' name='marcar_servido' class='btn btn-success btn-sm'>Marcar Servido</button>";
+                                        } else {
+                                            echo "<button type='submit' name='marcar_servido' class='btn btn-danger btn-sm' disabled>Servido</button>";
+                                        }
 
                                         echo "</form>
                                             </td>";
@@ -163,7 +164,7 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                     // Mostramos el HTML del botón ROJO (Pagar)
                     echo '
                     <div class="caja">
-                        <h2>Cerrar Mesa (Sprint 3)</h2>
+                        <h2>Cerrar Mesa </h2>
                         <p>La cuenta ya ha sido generada. Pulsa solo cuando el cliente haya pagado.</p>
                         <form action="detalle_mesa.php?id=' . $id_mesa . '" method="POST">
                             <div class="d-grid">
@@ -179,7 +180,7 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                     // Mostramos el HTML del botón NARANJA (Pedir Cuenta)
                     echo '
                     <div class="caja">
-                        <h2>Generar Cuenta (Sprint 3)</h2>
+                        <h2>Generar Cuenta </h2>
                         <p>El cliente ha pedido la cuenta de viva voz. Pulsa aquí para imprimir el ticket.</p>
                         <form action="detalle_mesa.php?id=' . $id_mesa . '" method="POST">
                             <div class="d-grid">

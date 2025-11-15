@@ -7,30 +7,19 @@ include("../includes/conexion.php");
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dni = $_POST['dni'];
     $nombre = $_POST['nombre'];
-    $ape = $_POST['apellidos'];
-    $dir = $_POST['direccion'];
+    $apellidos = $_POST['apellidos'];
+    $direccion = $_POST['direccion'];
     $email = $_POST['email'];
-    $tel = $_POST['telefono'];
-    $pass1 = $_POST['pass1'];
-    $pass2 = $_POST['pass2'];
-    if($_POST['rol']==="encargado"){
-        $rol = 1;
-    }else {
-        $rol = 2;
-    }
+    $telefono = $_POST['telefono'];
+    $pass = $_POST['pass'];
+    $rol = $_POST['rol'];
 
-    if ($pass1 !== $pass2) {
-        $_SESSION['error'] = true;
-        header("LOCATION: gestion_personal.php");
-    } else {
-        $consulta = "INSERT INTO usuarios (dni,nombre,apellidos,direccion,email,telefono,passwd,rol) 
-        VALUES ('$dni','$nombre','$ape','$dir','$email','$tel','$pass1',$rol)";
-        // Ejecutamos la sentencia SQL
-        mysqli_query($conn, $consulta);
-        // Redireccionamos a la web listados (este fichero lo debeis de crar vosotros)
-        mysqli_close($conn);
-        header("LOCATION:gestion_personal.php");
-        exit();
-    }
+    $consulta = "INSERT INTO usuarios (dni,nombre,apellidos,direccion,email,telefono,passwd,rol,estado) 
+        VALUES ('$dni','$nombre','$apellidos','$direccion','$email','$telefono','$pass',$rol,'0')";
+    // Ejecutamos la sentencia SQL
+    mysqli_query($conn, $consulta);
+    // Redireccionamos a la web listados (este fichero lo debeis de crar vosotros)
+    mysqli_close($conn);
+    header("LOCATION:gestion_personal.php");
+    exit();
 }
-?>

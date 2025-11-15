@@ -1,6 +1,6 @@
 <?php
 session_start();
-//include("seguridad_encargado.php");
+include("seguridad_encargado.php");
 include("../includes/conexion.php");
 
 // Cambiamos el estado de los productos a bloqueado

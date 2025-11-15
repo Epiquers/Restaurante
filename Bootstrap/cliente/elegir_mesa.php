@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
     mysqli_query($conn, $consulta_mesa);
 
     // Realizamos la reserva
-    $consulta_reserva = "INSERT INTO reservas (usuario, idm, comensales) VALUES ('$dni','$id_mesa','$comensales')";
+    $consulta_reserva = "INSERT INTO reservas (usuario, idm, comensales, estado) VALUES ('$dni','$id_mesa','$comensales','0')";
     mysqli_query($conn, $consulta_reserva);
 
     // Insertamos los datos del pedido

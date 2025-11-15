@@ -21,17 +21,8 @@ if (!empty($_SESSION['pedido'])) {
     // Guardamos variable de sesión del idped para usarlo mas adelante
     $_SESSION['idped'] = $idped;
 
-    //Creamos variable de sesión del precio total si no existe
-    if (!isset($_SESSION['total'])) {
-        $_SESSION['total'] = 0;
-    }
-
-    $total_pedido = $_SESSION['total'];
-
     // Recorremos el carrito 
     foreach ($_SESSION['pedido'] as $producto) {
-        // Sumamos el total
-        $total_pedido += $producto['precio'];
 
         // Guardamos los productos del carrito en la tabla pedido_producto
         $idprod = $producto['id'];
@@ -43,9 +34,6 @@ if (!empty($_SESSION['pedido'])) {
         
     }
     mysqli_close($conn);
-
-    // Guardamos el precio total que lleva el pedido
-    $_SESSION['total'] = $total_pedido;
 
 
     // Limpiamos el carrito

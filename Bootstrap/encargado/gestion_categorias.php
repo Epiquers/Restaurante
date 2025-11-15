@@ -1,6 +1,6 @@
 <?php
 session_start();
-//include("seguridad_encargado.php");
+include("seguridad_encargado.php");
 include("../includes/conexion.php");
 
 // 1. Lógica para AÑADIR una nueva categoría

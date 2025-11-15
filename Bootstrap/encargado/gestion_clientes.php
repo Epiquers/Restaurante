@@ -1,6 +1,6 @@
 <?php
 session_start();
-//include("seguridad_encargado.php");
+include("seguridad_encargado.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">

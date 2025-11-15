@@ -46,13 +46,9 @@ include("seguridad_cliente.php");
                                 <?php
                                 include("../includes/conexion.php");
 
-                                if(!isset($_SESION['total'])){
-                                    $_SESSION['total'] = 0;
-                                }
-
                                 $dni = $_SESSION['dni'];
                                 $idped = $_SESSION['idped'];
-                                $total = $_SESSION['total'];
+                                $total = 0;
 
                                 // Realizamos consulta de la tabla pedido_producto
                                 $consulta_pp = "SELECT * FROM pedido_producto WHERE idped=$idped";
@@ -68,6 +64,7 @@ include("seguridad_cliente.php");
                                         $row2 = mysqli_fetch_assoc($result2);
                                         $nombre = $row2['nombre'];
                                         $precio = $row2['precio'];
+                                        $total += $precio;
 
                                         // Guardamos la variable del estado de cada producto, poniendole el estado en que se encuentra
                                         if($row1['estado']==0){
@@ -85,6 +82,7 @@ include("seguridad_cliente.php");
                                         echo "</tr>";
                                     }
                                 }
+                                
                                 mysqli_close($conn);
                                 ?>
                             </tbody>

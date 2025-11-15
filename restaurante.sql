@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-11-2025 a las 15:34:16
+-- Tiempo de generación: 15-11-2025 a las 14:19:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -62,7 +62,7 @@ CREATE TABLE `mesas` (
 --
 
 INSERT INTO `mesas` (`idm`, `estado`) VALUES
-(1, 1),
+(1, 0),
 (2, 0),
 (3, 0);
 
@@ -80,13 +80,6 @@ CREATE TABLE `pedidos` (
   `estado` tinyint(1) NOT NULL COMMENT '0 - pendiente\r\n1- pagado',
   `idm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `pedidos`
---
-
-INSERT INTO `pedidos` (`idped`, `fechaHora`, `usuario`, `estado`, `idm`) VALUES
-(6, '2025-11-14 14:31:01', '51234567A', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -126,11 +119,11 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idprod`, `nombre`, `descripcion`, `precio`, `stock`, `estado`, `categoria`, `estado_cat`) VALUES
-(1, 'La Dorada 5.2%', 'Clásica rubia lager con 5.2% Alc.', 4, 300, 0, 1, 0),
-(2, 'Tres Tristes Tigres 5.8%', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 349, 0, 1, 0),
-(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 100, 0, 2, 0),
-(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 100, 0, 2, 0),
-(5, 'Marcen 5.6%', 'Cerveza tostada con 5.6% Alc.', 5, 150, 0, 1, 0);
+(1, 'La Dorada 5.2%', 'Clásica rubia lager con 5.2% Alc.', 4, 273, 0, 1, 0),
+(2, 'Tres Tristes Tigres 5.8%', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 338, 0, 1, 0),
+(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 96, 0, 2, 0),
+(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 97, 0, 2, 0),
+(5, 'Marcen 5.6%', 'Cerveza tostada con 5.6% Alc.', 5, 143, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -143,15 +136,9 @@ CREATE TABLE `reservas` (
   `usuario` varchar(10) NOT NULL,
   `idm` int(11) NOT NULL,
   `fechahora` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `comensales` int(11) NOT NULL
+  `comensales` int(11) NOT NULL,
+  `estado` tinyint(1) NOT NULL COMMENT '0 - activa\r\n1 - terminada'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `reservas`
---
-
-INSERT INTO `reservas` (`usuario`, `idm`, `fechahora`, `comensales`) VALUES
-('51234567A', 1, '2025-11-14 14:31:01', 5);
 
 -- --------------------------------------------------------
 
@@ -177,7 +164,10 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`dni`, `nombre`, `apellidos`, `telefono`, `direccion`, `email`, `passwd`, `rol`, `estado`) VALUES
-('51234567A', 'Juan', 'Pérez', '666666666', 'Calle Gran Vía 1', 'juanperez@gmail.com', '1234', 3, 0);
+('51155115C', 'Benito', 'Camela', '657657657', 'Calle Falsa, 456', 'benito@camarero.es', '1234', 2, 0),
+('51234567A', 'Juan', 'Pérez', '666666666', 'Calle Gran Vía 1', 'juanperez@gmail.com', '1234', 3, 0),
+('51464646B', 'Alex', 'Bejar', '698698698', 'Calle Falsa, 789', 'alex@encargado.es', '1234', 1, 0),
+('55443322D', 'Lolo', 'Lolailo', '632632632', 'Calle Falsa, 111', 'Lolo@cliente.es', '1234', 3, 0);
 
 --
 -- Índices para tablas volcadas
@@ -246,13 +236,13 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido_producto`
 --
 ALTER TABLE `pedido_producto`
-  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`

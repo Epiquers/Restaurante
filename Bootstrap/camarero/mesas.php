@@ -1,6 +1,6 @@
 <?php
 session_start();
-// include("seguridad_camarero.php");
+include("seguridad_camarero.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -30,32 +30,44 @@ session_start();
             <?php
             include("../includes/conexion.php");
 
-            $consulta = "SELECT * FROM mesas";
-            $result = mysqli_query($conn, $consulta);
+            // Consulta para ver el estado de las mesas
+            $consulta_mesa = "SELECT * FROM mesas";
+            $result1 = mysqli_query($conn, $consulta_mesa);
             echo mysqli_error($conn);
 
-            while ($row = mysqli_fetch_array($result)) {
-                $estado=$row['estado'];
-                $mesa=$row['idm'];
-                switch ($estado){
-                    case 0: 
+            while ($row1 = mysqli_fetch_array($result1)) {
+                $estado = $row1['estado'];
+                $idm = $row1['idm'];
+
+                // Consulta para ver los comensales de cada mesa reservada activa
+                $consulta_reserva = "SELECT * FROM reservas WHERE idm='$idm' AND estado='0'";
+                $result2 = mysqli_query($conn, $consulta_reserva);
+                echo mysqli_error($conn);
+                $row2 = mysqli_fetch_array($result2);
+                if (isset($row2['comensales']))
+                    $conmensales = $row2['comensales'];
+
+                switch ($estado) {
+                    case 0:
                         echo '<div class="col-md-4 col-lg-3 mb-4">
                                 <div class="caja text-center border border-success">
-                                    <h2 class="h4">Mesa ' . $mesa . '</h2>
+                                    <h2 class="h4">Mesa ' . $idm . '</h2>
                                     <p class="h5 fw-bold text-success">LIBRE</p>
                                 </div>
-                            </div>'; break;
+                            </div>';
+                        break;
                     case 1:
                         echo '<div class="col-md-4 col-lg-3 mb-4">
-                                <a href="detalle_mesa.php?id='. $mesa .'" class="text-decoration-none">
+                                <a href="detalle_mesa.php?id=' . $idm . '" class="text-decoration-none">
                                 <div class="caja text-center border border-danger">
-                                    <h2 class="h4">Mesa ' . $mesa . '</h2>
+                                    <h2 class="h4">Mesa ' . $idm . '</h2>
                                     <p class="h5 fw-bold text-danger">OCUPADA</p>
-                                    <small class="text-muted">Comensales: ' . $_SESSION['comensales'] . '</small><br>
+                                    <small class="text-muted">Comensales: ' . $conmensales . '</small><br>
                                     
                                 </div>
                                 </a>
-                            </div>'; break;
+                            </div>';
+                        break;
                 }
             }
             mysqli_close($conn);
