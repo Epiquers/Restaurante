@@ -30,9 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
     $consulta_pedido = "INSERT INTO pedidos (usuario, estado, idm) VALUES ('$dni', 0, '$id_mesa')";
     $result = mysqli_query($conn, $consulta_pedido);
 
-    // Guardamos el id del pedido, el nº de mesa y los comensales en la sesión del cliente
+    // Guardamos el nº de mesa y los comensales en la sesión del cliente
     $_SESSION['mesa_id'] = $id_mesa;
     $_SESSION['comensales'] = $comensales;
+
+    // Guardamos el id del pedido en la sesión 
     $consulta_idped = "SELECT * FROM pedidos WHERE usuario='$dni' AND estado='0'";
     $result = mysqli_query($conn, $consulta_idped);
     $row = mysqli_fetch_array($result);
