@@ -30,7 +30,7 @@ include("seguridad_camarero.php");
             <?php
             include("../includes/conexion.php");
 
-            // Consulta para ver el estado de las mesas
+            // Consulta para ver las meses que hay
             $consulta_mesa = "SELECT * FROM mesas";
             $result1 = mysqli_query($conn, $consulta_mesa);
             echo mysqli_error($conn);
@@ -39,13 +39,13 @@ include("seguridad_camarero.php");
                 $estado = $row1['estado'];
                 $idm = $row1['idm'];
 
-                // Consulta para ver los comensales de cada mesa reservada activa
+                // Consulta para ver los comensales de cada mesa reservada
                 $consulta_reserva = "SELECT * FROM reservas WHERE idm='$idm' AND estado='0'";
                 $result2 = mysqli_query($conn, $consulta_reserva);
                 echo mysqli_error($conn);
                 $row2 = mysqli_fetch_array($result2);
                 if (isset($row2['comensales']))
-                    $conmensales = $row2['comensales'];
+                    $comensales = $row2['comensales'];
 
                 switch ($estado) {
                     case 0:
@@ -62,7 +62,7 @@ include("seguridad_camarero.php");
                                 <div class="caja text-center border border-danger">
                                     <h2 class="h4">Mesa ' . $idm . '</h2>
                                     <p class="h5 fw-bold text-danger">OCUPADA</p>
-                                    <small class="text-muted">Comensales: ' . $conmensales . '</small><br>
+                                    <small class="text-muted">Comensales: ' . $comensales . '</small><br>
                                     
                                 </div>
                                 </a>

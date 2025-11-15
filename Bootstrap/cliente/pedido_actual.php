@@ -1,6 +1,20 @@
 <?php
 session_start();
 include("seguridad_cliente.php");
+include("../includes/conexion.php");
+
+if (isset($_SESSION['idped'])) {
+    $idped = $_SESSION['idped'];
+    $consulta = "SELECT * FROM pedidos WHERE idped = '$idped'";
+    $result = mysqli_query($conn, $consulta);
+    $row = mysqli_fetch_array($result);
+    if ($row['estado'] == '1') {
+        unset($_SESSION['mesa_id']);
+        mysqli_close($conn);
+        header('Location: elegir_mesa.php');
+        exit();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -44,7 +58,6 @@ include("seguridad_cliente.php");
                             </thead>
                             <tbody>
                                 <?php
-                                include("../includes/conexion.php");
 
                                 $dni = $_SESSION['dni'];
                                 $idped = $_SESSION['idped'];

@@ -19,9 +19,15 @@ include("seguridad_cliente.php");
 <body class="d-flex flex-column min-vh-100">
 
     <!-- Incluímos cabecera y navbar -->
-    <?php include '../includes/header.php'; ?>
+    <?php include '../includes/header.php';
 
-    <?php include 'navbar_cliente.php'; ?>
+    if (isset($_SESSION['mesa_id'])) {
+        include 'navbar_cliente.php';
+    }else{
+        include 'navbar_mesas.php';
+    }
+
+    ?>
 
 
     <main class="container mt-4 flex-grow-1">

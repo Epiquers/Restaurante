@@ -7,7 +7,14 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarCliente">
-      
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="elegir_mesa.php">Elegir Mesa</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="perfil.php">Mi Perfil</a>
+        </li>
+      </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
          <li class="nav-item">
             <a class="nav-link" href="../logout.php">Hola, <?php echo $_SESSION['nombre'] ?> (Cerrar Sesión)</a>

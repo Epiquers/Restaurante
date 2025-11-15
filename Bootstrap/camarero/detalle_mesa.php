@@ -8,31 +8,38 @@ if (isset($_GET['id'])) {
     $id_mesa = $_GET['id'];
 }
 
+// Declaramos la variable del estado de pedido que hace que se muestre el botón de pedir cuenta o pagar
+$estado_pedido = 0;
 
 // Cambiamos el estado de los productos que marca el camarero como servidos
 if (isset($_POST['marcar_servido'])) {
     $id_linea = $_POST['id_linea'];
-    $consulta_estado = "UPDATE pedido_producto SET estado = '1' WHERE id_linea = $id_linea";
-    mysqli_query($conn, $consulta_estado);
+    $consulta_estado_producto = "UPDATE pedido_producto SET estado = '1' WHERE id_linea = $id_linea";
+    mysqli_query($conn, $consulta_estado_producto);
 }
 
-// Si el camarero pulsa "Generar Cuenta"
+// Cuando se pide la cuenta
 if (isset($_POST['pedir_cuenta'])) {
-    // LÓGICA DE BBDD:
-    // 1. Generar el PDF/Ticket para la $id_mesa
-    // 2. Enviar a la impresora de tickets
-    // 3. UPDATE mesas SET estado = 'pidiendo_cuenta' WHERE id = $id_mesa
-    //...
+    $estado_pedido = 1;
+    $id_mesa = $_POST['id_mesa'];
 }
 
-// Si el camarero marca la mesa como "pagada"
+// Cuando el cliente paga la cuenta
 if (isset($_POST['marcar_pagada'])) {
-    // LÓGICA DE BBDD: 
-    // UPDATE mesas SET estado = 'libre', cliente_id = NULL, comensales = 0 WHERE id = $id_mesa
-    // UPDATE productos_pedidos SET estado = 'pagado' WHERE mesa_id = $id_mesa (O moverlos a un histórico)
-    // ...
-    // Y lo redirigimos al panel principal
-    header('Location: mesas.php?exito=mesa_liberada');
+    $id_mesa = $_POST['id_mesa'];
+    // Liberamos la mesa
+    $consulta_pagado = "UPDATE mesas SET estado = '0' WHERE idm = $id_mesa";
+    mysqli_query($conn, $consulta_pagado);
+
+    // Cambiamos el estado de la reserva a terminada
+    $consulta_actualizar_reserva = "UPDATE reservas SET estado = '1' WHERE idm = $id_mesa";
+    mysqli_query($conn, $consulta_actualizar_reserva);
+
+    // Cambiamos el estado del pedido a pagado
+    $consulta_pedidos = "UPDATE pedidos SET estado = '1' WHERE idm = $id_mesa AND estado = 0";
+    mysqli_query($conn, $consulta_pedidos);
+
+    header('Location: mesas.php');
     exit();
 }
 //
@@ -43,7 +50,7 @@ if (isset($_POST['marcar_pagada'])) {
 // $productos_pedidos = ... (SELECT * FROM productos_pedidos WHERE ... )
 //
 // Simulación para el ejemplo (¡RECUERDA BORRAR ESTO Y PONER TU CONSULTA REAL!):
-$estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro estado)
+$estado_reserva = 0; // (Cambia a 'pidiendo_cuenta' para probar el otro estado)
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -143,7 +150,7 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                                         echo "</tr>";
                                     }
                                 }
-                                mysqli_close($conn);
+
                                 ?>
 
                             </tbody>
@@ -154,35 +161,15 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
             <div class="col-lg-4">
 
                 <?php
-                // --- CÓDIGO CON SINTAXIS ESTÁNDAR (CON LLAVES {}) ---
 
-                // (La variable $estado_mesa se ha obtenido en el PHP de arriba)
 
-                if ($estado_mesa == 'pidiendo_cuenta') {
-
-                    // VISTA 1: Si ya se pidió la cuenta
-                    // Mostramos el HTML del botón ROJO (Pagar)
-                    echo '
-                    <div class="caja">
-                        <h2>Cerrar Mesa </h2>
-                        <p>La cuenta ya ha sido generada. Pulsa solo cuando el cliente haya pagado.</p>
-                        <form action="detalle_mesa.php?id=' . $id_mesa . '" method="POST">
-                            <div class="d-grid">
-                                <button type="submit" name="marcar_pagada" class="btn btn-danger btn-lg">
-                                    Marcar Mesa como Pagada
-                                </button>
-                            </div>
-                        </form>
-                    </div>';
-                } else {
-
-                    // VISTA 2: Si la mesa está normal (comiendo)
-                    // Mostramos el HTML del botón NARANJA (Pedir Cuenta)
+                if ($estado_pedido == '0') {
                     echo '
                     <div class="caja">
                         <h2>Generar Cuenta </h2>
-                        <p>El cliente ha pedido la cuenta de viva voz. Pulsa aquí para imprimir el ticket.</p>
-                        <form action="detalle_mesa.php?id=' . $id_mesa . '" method="POST">
+                        <p>El cliente ha pedido la cuenta. Pulsa aquí para imprimir el ticket.</p>
+                        <form action="detalle_mesa.php" method="POST">
+                            <input type="hidden" name="id_mesa" value="' . $id_mesa . '">
                             <div class="d-grid">
                                 <button type="submit" name="pedir_cuenta" class="btn btn-warning btn-lg">
                                     Generar Cuenta y Ticket
@@ -190,7 +177,23 @@ $estado_mesa = 'comiendo'; // (Cambia a 'pidiendo_cuenta' para probar el otro es
                             </div>
                         </form>
                     </div>';
-                } // Fin del else
+                } else {
+                    echo '
+                    <div class="caja">
+                        <h2>Cerrar Mesa </h2>
+                        <p>La cuenta ya ha sido generada. Pulsa solo cuando el cliente haya pagado.</p>
+                        <form action="detalle_mesa.php" method="POST">
+                            <input type="hidden" name="id_mesa" value="' . $id_mesa . '">
+                            <div class="d-grid">
+                                <button type="submit" name="marcar_pagada" class="btn btn-danger btn-lg">
+                                    Marcar Mesa como Pagada
+                                </button>
+                            </div>
+                        </form>
+                    </div>';
+                }
+                // Cerramos conexión con base de datos
+                mysqli_close($conn);
                 ?>
 
             </div>

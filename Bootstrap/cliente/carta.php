@@ -1,6 +1,21 @@
 <?php
 session_start();
 include("seguridad_cliente.php");
+// Conexión
+include("../includes/conexion.php");
+
+if (isset($_SESSION['idped'])) {
+    $idped = $_SESSION['idped'];
+    $consulta = "SELECT * FROM pedidos WHERE idped = '$idped'";
+    $result = mysqli_query($conn, $consulta);
+    $row = mysqli_fetch_array($result);
+    if ($row['estado'] == '1') {
+        unset($_SESSION['mesa_id']);
+        mysqli_close($conn);
+        header('Location: elegir_mesa.php');
+        exit();
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -42,7 +57,7 @@ include("seguridad_cliente.php");
                 include("../includes/conexion.php");
 
                 // Si el cliente busca algún producto a través del buscador entra en este if
-                if (isset($_GET['buscar']) && $_GET['buscar']!=="") {
+                if (isset($_GET['buscar']) && $_GET['buscar'] !== "") {
                     // Hacemos consulta del producto que busca el cliente
                     $nom = $_GET['buscar'];
 
@@ -52,9 +67,9 @@ include("seguridad_cliente.php");
 
                     // HTML para los productos
                     echo '<div class="caja mb-4">';
-                        echo '<div class="row mb-3 align-items-center">';
-                        while ($row = mysqli_fetch_array($result_productos)) {
-                            echo '
+                    echo '<div class="row mb-3 align-items-center">';
+                    while ($row = mysqli_fetch_array($result_productos)) {
+                        echo '
                                 <div class="col-12 mb-0">
                                     <div class="d-flex justify-content-between">
                                         <h4 class="h5 mb-0">' . $row['nombre'] . '</h4>
@@ -71,8 +86,8 @@ include("seguridad_cliente.php");
                                         </div>
                                     </form>
                                 </div>';
-                        }
-                        echo '</div>';
+                    }
+                    echo '</div>';
                     echo '</div>';
                 } else {
                     // Buscamos todas las categorías 
@@ -98,8 +113,8 @@ include("seguridad_cliente.php");
 
                         // HTML para los productos 
                         echo '<div class="row mb-3 align-items-center">';
-                            while ($row = mysqli_fetch_array($result_productos)) {
-                                echo '
+                        while ($row = mysqli_fetch_array($result_productos)) {
+                            echo '
                                     <div class="col-12">
                                         <div class="d-flex justify-content-between">
                                             <h4 class="h5 mb-0">' . $row['nombre'] . '</h4>
@@ -116,8 +131,8 @@ include("seguridad_cliente.php");
                                             </div>
                                         </form>
                                     </div>';
-                            }
-                            echo '</div>';
+                        }
+                        echo '</div>';
                         echo '</div>';
                     }
                 }
