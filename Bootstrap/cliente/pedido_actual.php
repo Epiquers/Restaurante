@@ -46,6 +46,10 @@ include("seguridad_cliente.php");
                                 <?php
                                 include("../includes/conexion.php");
 
+                                if(!isset($_SESION['total'])){
+                                    $_SESSION['total'] = 0;
+                                }
+
                                 $dni = $_SESSION['dni'];
                                 $idped = $_SESSION['idped'];
                                 $total = $_SESSION['total'];

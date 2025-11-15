@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
     $id_mesa = $_POST['mesa'];
     $comensales = $_POST['comensales'];
     $dni = $_SESSION['dni'];
- 
+
     // Iniciamos la conexión
     include("../includes/conexion.php");
 
@@ -25,17 +25,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
     // Realizamos la reserva
     $consulta_reserva = "INSERT INTO reservas (usuario, idm, comensales) VALUES ('$dni','$id_mesa','$comensales')";
     mysqli_query($conn, $consulta_reserva);
-  
+
     // Insertamos los datos del pedido
     $consulta_pedido = "INSERT INTO pedidos (usuario, estado, idm) VALUES ('$dni', 0, '$id_mesa')";
-    mysqli_query($conn, $consulta_pedido);
+    $result = mysqli_query($conn, $consulta_pedido);
+
+    // Guardamos el id del pedido, el nº de mesa y los comensales en la sesión del cliente
+    $_SESSION['mesa_id'] = $id_mesa;
+    $_SESSION['comensales'] = $comensales;
+    $consulta_idped = "SELECT * FROM pedidos WHERE usuario='$dni' AND estado='0'";
+    $result = mysqli_query($conn, $consulta_idped);
+    $row = mysqli_fetch_array($result);
+    $_SESSION['idped'] = $row['idped'];
 
     // Cerramos la conexión
     mysqli_close($conn);
-
-    // Guardamos la mesa y los comensales en la sesión del cliente
-    $_SESSION['mesa_id'] = $id_mesa;
-    $_SESSION['comensales'] = $comensales;
 
     // Redireccionamos a la carta
     header('Location: carta.php');

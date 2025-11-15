@@ -62,7 +62,7 @@ if (isset($_POST['modificar'])) {
         <div class="collapse" id="collapseAnadir">
             <div class="caja mb-4">
                 <h2>Añadir Nuevo Producto</h2>
-                <form action="altas_categorias.php" method="POST" enctype="multipart/form-data">
+                <form action="altas_productos.php" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="nombre" class="form-label">Nombre Producto</label>
