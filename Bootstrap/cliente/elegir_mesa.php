@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['seleccionar_mesa'])) {
     include("navbar_mesas.php");
     ?>
 
-    <main class="container mt-4 flex-grow-1 d-flex align-items-center">
+    <main class="container flex-grow-1 d-flex align-items-center">
         <div class="row justify-content-center w-100">
             <div class="col-md-8 col-lg-6">
                 <div class="caja p-4">
