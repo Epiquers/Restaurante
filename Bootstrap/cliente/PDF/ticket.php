@@ -64,7 +64,8 @@ while ($row2 = mysqli_fetch_array($result2)){
             </tr>";
     $precio_final += $row2['total'];
 }
-
+// Cierro conexión
+mysqli_close($conn);
 $html .= "
     </tbody>
 </table>
@@ -73,5 +74,5 @@ $html .= "
 ";
 $mpdf->WriteHTML($html);
 $mpdf->Output();
-  
+
 ?>
