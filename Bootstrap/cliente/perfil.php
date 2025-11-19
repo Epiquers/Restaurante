@@ -23,7 +23,7 @@ include("seguridad_cliente.php");
 
     if (isset($_SESSION['mesa_id'])) {
         include 'navbar_cliente.php';
-    }else{
+    } else {
         include 'navbar_mesas.php';
     }
 
@@ -90,39 +90,53 @@ include("seguridad_cliente.php");
             <div class="col-lg-6">
                 <div class="caja">
                     <h2>Historial de Facturas</h2>
-                    <p class="text-muted">Aquí puedes ver todos tus pedidos anteriores (Sprint 3).</p>
+                    <p class="text-muted">Aquí puedes ver todos tus pedidos anteriores.</p>
 
                     <div class="table-responsive">
                         <table class="table table-dark table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th>Fecha</th>
+                                    <th>Fecha y Hora</th>
                                     <th>Total Pagado</th>
                                     <th>Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>25/10/2025</td>
-                                    <td>45.50 €</td>
-                                    <td>
-                                        <a href="factura.php?id=101" class="btn btn-primary btn-sm">Ver PDF</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>18/10/2025</td>
-                                    <td>82.10 €</td>
-                                    <td>
-                                        <a href="factura.php?id=95" class="btn btn-primary btn-sm">Ver PDF</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>02/09/2025</td>
-                                    <td>12.00 €</td>
-                                    <td>
-                                        <a href="factura.php?id=78" class="btn btn-primary btn-sm">Ver PDF</a>
-                                    </td>
-                                </tr>
+                                <?php
+                                include("../includes/conexion.php");
+
+                                $dni = $_SESSION['dni'];
+
+                                // Realizamos consulta de la tabla pedidos
+                                $consulta_pedidos = "SELECT * FROM pedidos WHERE usuario='$dni'";
+                                $result1 = mysqli_query($conn, $consulta_pedidos);
+
+                                if (mysqli_num_rows($result1) > 0) {
+                                    while ($row1 = mysqli_fetch_array($result1)) {
+                                        $total = 0;
+                                        // Hacemos consulta para conseguir el nombre del producto
+                                        $idped = $row1['idped'];
+                                        $fecha = $row1['fechaHora'];
+                                        $consulta_pp = "SELECT SUM(p.precio) AS total
+                                                        FROM pedido_producto pp, productos p
+                                                        WHERE pp.idprod = p.idprod
+                                                        AND pp.idped = '$idped'";   
+                                        $result2 = mysqli_query($conn, $consulta_pp);
+                                        while ($row2 = mysqli_fetch_array($result2)) {
+                                            $total = $row2['total'];
+                                        }
+
+
+                                        echo "<tr>";
+                                        echo "<td>" . ($fecha) . "</td>";
+                                        echo "<td>" . number_format($total, 2) . " €</td>";
+                                        echo "<td>
+                                                <a href='PDF/factura.php?id=" . $idped . "' class='btn btn-primary btn-sm'>Ver PDF</a>
+                                            </td>";
+                                        echo "</tr>";
+                                    }
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
