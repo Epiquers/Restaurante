@@ -9,11 +9,11 @@ if (isset($_GET['id'])) {
 }
 
 // Declaramos la variable del estado de pedido que hace que se muestre el botón de pedir cuenta o pagar
-if(!isset($_SESSION['estado_pedido'])) {
-    $_SESSION['estado_pedido']=0;
+if(!isset($_SESSION['estado_pedido' . $id_mesa])) {
+    $_SESSION['estado_pedido' . $id_mesa]=0;
 }
 
-$estado_pedido = $_SESSION['estado_pedido'];
+$estado_pedido = $_SESSION['estado_pedido' . $id_mesa];
 
 // Cambiamos el estado de los productos que marca el camarero como servidos
 if (isset($_POST['marcar_servido'])) {
@@ -24,7 +24,7 @@ if (isset($_POST['marcar_servido'])) {
 
 // Cuando se pide la cuenta
 if (isset($_POST['pedir_cuenta'])) {
-    $_SESSION['estado_pedido'] = 1;
+    $_SESSION['estado_pedido' . $id_mesa] = 1;
     $id_mesa = $_POST['id_mesa'];
     header("Location: tickets/generar_ticket.php?idm=" . $id_mesa . "&idp=" . $idped);
     exit();
@@ -48,15 +48,7 @@ if (isset($_POST['marcar_pagada'])) {
     header('Location: mesas.php');
     exit();
 }
-//
-// 3. CONSULTAR LA BBDD
-//
-// ¡AHORA TAMBIÉN NECESITAMOS EL ESTADO DE LA MESA!
-// $estado_mesa = ... (SELECT estado FROM mesas WHERE id = $id_mesa)
-// $productos_pedidos = ... (SELECT * FROM productos_pedidos WHERE ... )
-//
-// Simulación para el ejemplo (¡RECUERDA BORRAR ESTO Y PONER TU CONSULTA REAL!):
-$estado_reserva = 0; // (Cambia a 'pidiendo_cuenta' para probar el otro estado)
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
