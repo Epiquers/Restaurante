@@ -9,7 +9,11 @@ if (isset($_GET['id'])) {
 }
 
 // Declaramos la variable del estado de pedido que hace que se muestre el botón de pedir cuenta o pagar
-$estado_pedido = 0;
+if(!isset($_SESSION['estado_pedido'])) {
+    $_SESSION['estado_pedido']=0;
+}
+
+$estado_pedido = $_SESSION['estado_pedido'];
 
 // Cambiamos el estado de los productos que marca el camarero como servidos
 if (isset($_POST['marcar_servido'])) {
@@ -20,8 +24,10 @@ if (isset($_POST['marcar_servido'])) {
 
 // Cuando se pide la cuenta
 if (isset($_POST['pedir_cuenta'])) {
-    $estado_pedido = 1;
+    $_SESSION['estado_pedido'] = 1;
     $id_mesa = $_POST['id_mesa'];
+    header("Location: tickets/generar_ticket.php?idm=" . $id_mesa . "&idp=" . $idped);
+    exit();
 }
 
 // Cuando el cliente paga la cuenta
@@ -170,6 +176,7 @@ $estado_reserva = 0; // (Cambia a 'pidiendo_cuenta' para probar el otro estado)
                         <p>El cliente ha pedido la cuenta. Pulsa aquí para imprimir el ticket.</p>
                         <form action="detalle_mesa.php" method="POST">
                             <input type="hidden" name="id_mesa" value="' . $id_mesa . '">
+                            <input type="hidden" name="idped" value="' . $idped . '">
                             <div class="d-grid">
                                 <button type="submit" name="pedir_cuenta" class="btn btn-warning btn-lg">
                                     Generar Cuenta y Ticket

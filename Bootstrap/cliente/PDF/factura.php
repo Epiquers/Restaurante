@@ -84,7 +84,7 @@ if (isset($_GET['id'])) {
             <hr>
             <p align='right'><b>Total: " . number_format($precio_final, 2) . " €</b></p>
             <br>
-            <p align='center'><b>Gracias por su visita</b></p>
+            <p align='center'><b>¡Gracias por su visita!</b></p>
             ";
     $mpdf->WriteHTML($html);
     $mpdf->Output();
