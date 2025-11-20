@@ -13,8 +13,6 @@ if(!isset($_SESSION['estado_pedido' . $id_mesa])) {
     $_SESSION['estado_pedido' . $id_mesa]=0;
 }
 
-$estado_pedido = $_SESSION['estado_pedido' . $id_mesa];
-
 // Cambiamos el estado de los productos que marca el camarero como servidos
 if (isset($_POST['marcar_servido'])) {
     $id_linea = $_POST['id_linea'];
@@ -24,11 +22,13 @@ if (isset($_POST['marcar_servido'])) {
 
 // Cuando se pide la cuenta
 if (isset($_POST['pedir_cuenta'])) {
-    $_SESSION['estado_pedido' . $id_mesa] = 1;
     $id_mesa = $_POST['id_mesa'];
+    $_SESSION['estado_pedido' . $id_mesa] = 1;
     header("Location: tickets/generar_ticket.php?idm=" . $id_mesa . "&idp=" . $idped);
     exit();
 }
+
+$estado_pedido = $_SESSION['estado_pedido' . $id_mesa];
 
 // Cuando el cliente paga la cuenta
 if (isset($_POST['marcar_pagada'])) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-11-2025 a las 14:19:20
+-- Tiempo de generación: 20-11-2025 a las 08:32:40
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -64,7 +64,8 @@ CREATE TABLE `mesas` (
 INSERT INTO `mesas` (`idm`, `estado`) VALUES
 (1, 0),
 (2, 0),
-(3, 0);
+(3, 0),
+(4, 0);
 
 -- --------------------------------------------------------
 
@@ -119,11 +120,11 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idprod`, `nombre`, `descripcion`, `precio`, `stock`, `estado`, `categoria`, `estado_cat`) VALUES
-(1, 'La Dorada 5.2%', 'Clásica rubia lager con 5.2% Alc.', 4, 273, 0, 1, 0),
-(2, 'Tres Tristes Tigres 5.8%', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 338, 0, 1, 0),
-(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 96, 0, 2, 0),
-(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 97, 0, 2, 0),
-(5, 'Marcen 5.6%', 'Cerveza tostada con 5.6% Alc.', 5, 143, 0, 1, 0);
+(1, 'La Dorada', 'Clásica rubia lager con 5.2% Alc.', 4, 267, 0, 1, 0),
+(2, 'Tres Tristes Tigres', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 332, 0, 1, 0),
+(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 92, 0, 2, 0),
+(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 94, 0, 2, 0),
+(5, 'Marcen', 'Cerveza tostada con 5.6% Alc.', 5, 139, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -165,7 +166,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`dni`, `nombre`, `apellidos`, `telefono`, `direccion`, `email`, `passwd`, `rol`, `estado`) VALUES
 ('51155115C', 'Benito', 'Camela', '657657657', 'Calle Falsa, 456', 'benito@camarero.es', '1234', 2, 0),
-('51234567A', 'Juan', 'Pérez', '666666666', 'Calle Gran Vía 1', 'juanperez@gmail.com', '1234', 3, 0),
+('51234567A', 'Juan', 'Pérez López', '666666666', 'Calle Gran Vía 1', 'juanperez@gmail.com', '1234', 3, 0),
 ('51464646B', 'Alex', 'Bejar', '698698698', 'Calle Falsa, 789', 'alex@encargado.es', '1234', 1, 0),
 ('55443322D', 'Lolo', 'Lolailo', '632632632', 'Calle Falsa, 111', 'Lolo@cliente.es', '1234', 3, 0);
 
@@ -236,13 +237,13 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido_producto`
 --
 ALTER TABLE `pedido_producto`
-  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
