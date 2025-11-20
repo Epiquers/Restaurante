@@ -35,12 +35,8 @@ if (!empty($_SESSION['pedido'])) {
     }
     mysqli_close($conn);
 
-
-    // Limpiamos el carrito
-    unset($_SESSION['pedido']);
-
-    // Redirigimos al pedido actual
-    header('Location: pedido_actual.php');
+    // Redirigimos al ticket de cocina
+    header('Location: tickets/generar_ticket.php?idp=' . $idped);
     exit();
 } else {
     // Si alguien entra a este archivo sin productos o sin sesión
