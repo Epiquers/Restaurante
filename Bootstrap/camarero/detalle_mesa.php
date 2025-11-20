@@ -23,12 +23,11 @@ if (isset($_POST['marcar_servido'])) {
 // Cuando se pide la cuenta
 if (isset($_POST['pedir_cuenta'])) {
     $id_mesa = $_POST['id_mesa'];
+    $idped = $_POST['idped'];
     $_SESSION['estado_pedido' . $id_mesa] = 1;
     header("Location: tickets/generar_ticket.php?idm=" . $id_mesa . "&idp=" . $idped);
     exit();
 }
-
-$estado_pedido = $_SESSION['estado_pedido' . $id_mesa];
 
 // Cuando el cliente paga la cuenta
 if (isset($_POST['marcar_pagada'])) {
@@ -45,9 +44,13 @@ if (isset($_POST['marcar_pagada'])) {
     $consulta_pedidos = "UPDATE pedidos SET estado = '1' WHERE idm = $id_mesa AND estado = 0";
     mysqli_query($conn, $consulta_pedidos);
 
+    $_SESSION['estado_pedido' . $id_mesa]=0;
+
     header('Location: mesas.php');
     exit();
 }
+
+$estado_pedido = $_SESSION['estado_pedido' . $id_mesa];
 
 ?>
 <!DOCTYPE html>
