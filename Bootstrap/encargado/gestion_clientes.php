@@ -1,6 +1,22 @@
 <?php
 session_start();
 include("seguridad_encargado.php");
+include("../includes/conexion.php");
+
+// Cambiamos el estado de los clientes a bloqueado
+if (isset($_POST['bloquear'])) {
+    $dni = $_POST['dni'];
+    $consulta_bloquear = "UPDATE usuarios SET estado = '1' WHERE dni = '$dni'";
+    mysqli_query($conn, $consulta_bloquear);
+}
+
+// Cambiamos el estado de los clientes a activo
+if (isset($_POST['activar'])) {
+    $dni = $_POST['dni'];
+    $consulta_activar = "UPDATE usuarios SET estado = '0' WHERE dni = '$dni'";
+    mysqli_query($conn, $consulta_activar);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -34,26 +50,66 @@ include("seguridad_encargado.php");
                 <table class="table table-dark table-striped table-hover">
                     <thead>
                         <tr>
-                            <th>Foto</th>
                             <th>Nombre</th>
+                            <th>Apellidos</th>
                             <th>DNI</th>
-                            <th>Rol</th>
+                            <th>Teléfono</th>
+                            <th>Dirección</th>
+                            <th>Email</th>
                             <th>Estado</th>
-                            <th>Acciones</th>
+                            <th>Bloqueos</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>(imagen)</td>
-                            <td>Juan Pérez</td>
-                            <td>12345678A</td>
-                            <td>Camarero</td>
-                            <td><span class="badge bg-success">Activo</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm">Modificar</button>
-                                <button class="btn btn-danger btn-sm">Suspender</button>
-                            </td>
-                        </tr>
+                        <?php
+
+                        // Realizamos consulta de la tabla personal
+                        $consulta_productos = "SELECT * FROM usuarios WHERE rol=3";
+                        $result = mysqli_query($conn, $consulta_productos);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                $nombre = $row['nombre'];
+                                $apellidos = $row['apellidos'];
+                                $dni = $row['dni'];
+                                $telefono = $row['telefono'];
+                                $direccion = $row['direccion'];
+                                $email = $row['email'];
+
+                                // Guardamos la variable del estado de cada producto, poniendole el estado en que se encuentra
+                                if ($row['estado'] == 0) {
+                                    $estado = 'Activo';
+                                    $color = 'success';
+                                    $bloquear = false;
+                                } else {
+                                    $estado = 'Bloqueado';
+                                    $color = 'danger';
+                                    $bloquear = true;
+                                }
+                                echo "<tr>";
+                                echo "<td>" . ($nombre) . "</td>";
+                                echo "<td>" . ($apellidos) . "</td>";
+                                echo "<td>" . ($dni) . "</td>";
+                                echo "<td>" . ($telefono) . "</td>";
+                                echo "<td>" . ($direccion) . "</td>";
+                                echo "<td>" . ($email) . "</td>";
+                                echo "<td><span class='badge bg-" . $color . "'>" . ($estado) . "</td>";                                
+                                echo "<td>
+                                        <form action='gestion_clientes.php' method='POST'>
+                                            <input type='hidden' name='dni' value='$dni'>";
+                                if (!$bloquear) {
+                                    echo "<button type='submit' name='bloquear' class='btn btn-danger btn-sm'>Bloquear</button>";
+                                } else {
+                                    echo "<button type='submit' name='activar' class='btn btn-success btn-sm'>Activar</button>";
+                                }
+                                echo "</form>
+                                        </td>";
+                                echo "</tr>";
+                                
+                            }
+                        }
+                        mysqli_close($conn);
+                        ?>
                     </tbody>
                 </table>
             </div>

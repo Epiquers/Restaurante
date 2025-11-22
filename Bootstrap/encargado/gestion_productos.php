@@ -78,7 +78,7 @@ if (isset($_POST['modificar'])) {
                             <label for="categoria" class="form-label">Categoría</label>
                             <select class="form-select" id="categoria" name="categoria" required>
                                 <?php
-                                include("../includes/conexion.php");
+                                
 
                                 $consulta = "SELECT * FROM categoria";
                                 $result = mysqli_query($conn, $consulta);
@@ -86,7 +86,7 @@ if (isset($_POST['modificar'])) {
                                 while ($row = mysqli_fetch_array($result)) {
                                     echo "<option value='" . $row['idc'] . "'>" . $row['nombre'] . "</option>";
                                 }
-                                mysqli_close($conn);
+                                
                                 ?>
                             </select>
                         </div>
@@ -121,7 +121,6 @@ if (isset($_POST['modificar'])) {
                     </thead>
                     <tbody>
                         <?php
-                        include("../includes/conexion.php");
 
                         // Realizamos consulta de la tabla pedido_producto
                         $consulta_productos = "SELECT * FROM productos";

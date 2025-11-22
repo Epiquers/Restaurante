@@ -74,47 +74,6 @@ include("seguridad_camarero.php");
             ?>
         </div>
 
-        <!--<div class="row">
-            <div class="col-md-4 col-lg-3 mb-4">
-                <div class="caja text-center border border-success">
-                    <h2 class="h4">Mesa 1</h2>
-                    <p class="h5 fw-bold text-success">LIBRE</p>
-                </div>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                <a href="detalle_mesa.php?id=2" class="text-decoration-none">
-                    <div class="caja text-center border border-danger">
-                        <h2 class="h4">Mesa 2</h2>
-                        <p class="h5 fw-bold text-danger">OCUPADA</p>
-                        <small class="text-muted">Comensales: 4</small><br>
-                        <small class="text-warning">Pedido pendiente</small>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                <a href="detalle_mesa.php?id=3" class="text-decoration-none">
-                    <div class="caja text-center border border-info">
-                        <h2 class="h4">Mesa 3</h2>
-                        <p class="h5 fw-bold text-info">COMIENDO</p>
-                        <small class="text-muted">Comensales: 2</small><br>
-                        <small class="text-info">Todo servido</small>
-                    </div>
-                </a>
-            </div>
-
-            <div class="col-md-4 col-lg-3 mb-4">
-                <a href="detalle_mesa.php?id=4" class="text-decoration-none">
-                    <div class="caja text-center border border-warning bg-warning text-dark">
-                        <h2 class="h4">Mesa 4</h2>
-                        <p class="h5 fw-bold">PIDIENDO CUENTA</p>
-                        <small>Comensales: 5</small><br>
-                        <small>Total: 120.50€</small>
-                    </div>
-                </a>
-            </div>
-        </div>-->
     </main>
 
     <?php include '../includes/footer.php'; ?>
