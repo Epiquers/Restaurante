@@ -172,7 +172,7 @@ if (isset($_POST['modificar'])) {
                                             <div class='modal-content bg-dark text-light'>
                                                 <form action='gestion_productos.php' method='POST'>
                                                     <div class='modal-header'>
-                                                        <h5 class='modal-title' id='labelModalModificar$idprod'>Modificar Categoría</h5>
+                                                        <h5 class='modal-title' id='labelModalModificar$idprod'>Modificar Productos</h5>
                                                         <button type='button' class='btn-close btn-close-white' data-bs-dismiss='modal' aria-label='Cerrar'></button>
                                                     </div>
                                                     <div class='modal-body'>
