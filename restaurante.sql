@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2025 a las 08:32:40
+-- Tiempo de generación: 09-12-2025 a las 09:11:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -82,6 +82,22 @@ CREATE TABLE `pedidos` (
   `idm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+--
+-- Volcado de datos para la tabla `pedidos`
+--
+
+INSERT INTO `pedidos` (`idped`, `fechaHora`, `usuario`, `estado`, `idm`) VALUES
+(6, '2025-11-20 08:29:34', '51234567A', 1, 1),
+(7, '2025-11-20 08:30:17', '51234567A', 1, 1),
+(8, '2025-11-20 08:38:15', '51234567A', 1, 1),
+(9, '2025-11-20 08:40:26', '51234567A', 1, 1),
+(10, '2025-11-20 08:40:47', '51234567A', 1, 1),
+(11, '2025-11-20 08:50:41', '51234567A', 1, 1),
+(12, '2025-11-20 09:09:01', '51234567A', 1, 1),
+(13, '2025-12-01 11:14:59', '51234567A', 1, 1),
+(14, '2025-12-01 11:19:52', '51234567A', 1, 1),
+(15, '2025-12-09 07:59:48', '51234567A', 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -96,6 +112,62 @@ CREATE TABLE `pedido_producto` (
   `comentario` varchar(100) NOT NULL,
   `estado` tinyint(1) NOT NULL COMMENT '0 - pendiente\r\n1 - servido'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `pedido_producto`
+--
+
+INSERT INTO `pedido_producto` (`id_linea`, `idped`, `idprod`, `comentario`, `estado`) VALUES
+(33, 6, 1, '', 1),
+(34, 6, 2, '', 1),
+(35, 6, 5, '', 1),
+(36, 6, 3, '', 1),
+(37, 6, 4, '', 1),
+(38, 7, 1, '', 1),
+(39, 7, 2, '', 1),
+(40, 8, 1, '', 1),
+(41, 8, 2, '', 1),
+(42, 9, 1, '', 1),
+(43, 9, 2, '', 1),
+(44, 10, 1, '', 1),
+(45, 10, 2, '', 1),
+(46, 11, 1, '', 1),
+(47, 11, 2, '', 1),
+(48, 12, 1, '', 1),
+(49, 12, 2, '', 1),
+(50, 12, 3, '', 1),
+(51, 12, 4, '', 1),
+(56, 13, 1, '', 1),
+(57, 13, 2, '', 1),
+(58, 13, 1, '', 1),
+(59, 13, 1, '', 1),
+(60, 13, 1, '', 1),
+(61, 13, 1, '', 1),
+(62, 13, 2, '', 1),
+(63, 13, 1, '', 1),
+(64, 13, 1, '', 1),
+(65, 13, 1, '', 1),
+(66, 13, 3, '', 1),
+(67, 13, 1, 'sfdfasdfasdfa', 1),
+(68, 13, 3, 'sdfsfasdfads', 1),
+(69, 13, 1, '', 1),
+(70, 13, 2, '', 1),
+(71, 13, 3, 'Con mucho de todo', 1),
+(72, 13, 1, 'Bien fresquita', 1),
+(73, 13, 2, 'Con solo 2 tigres, y los quiero contentos', 1),
+(74, 13, 1, '', 1),
+(75, 13, 2, '', 1),
+(76, 13, 3, '', 1),
+(77, 13, 4, '', 1),
+(78, 13, 1, '', 1),
+(79, 13, 2, '', 1),
+(80, 13, 3, '', 1),
+(81, 14, 1, 'Mu fresca', 1),
+(82, 14, 3, 'Tenéis pasto seco?', 1),
+(83, 15, 1, '', 1),
+(84, 15, 2, '', 1),
+(85, 15, 3, '', 1),
+(86, 15, 3, 'Al punto', 1);
 
 -- --------------------------------------------------------
 
@@ -120,11 +192,11 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idprod`, `nombre`, `descripcion`, `precio`, `stock`, `estado`, `categoria`, `estado_cat`) VALUES
-(1, 'La Dorada', 'Clásica rubia lager con 5.2% Alc.', 4, 267, 0, 1, 0),
-(2, 'Tres Tristes Tigres', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 332, 0, 1, 0),
-(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 92, 0, 2, 0),
-(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 94, 0, 2, 0),
-(5, 'Marcen', 'Cerveza tostada con 5.6% Alc.', 5, 139, 0, 1, 0);
+(1, 'La Dorada', 'Clásica rubia lager con 5.2% Alc.', 4, 243, 0, 1, 0),
+(2, 'Tres Tristes Tigres', 'Cerveza de trigo densa, suave y aromática con 5.8% Alc.', 4.8, 318, 0, 1, 0),
+(3, 'Burguer de la Casa', 'Carne de vaca madurada, lechuga, tomate, cebolla, queso y salsa de la casa', 11.5, 83, 0, 2, 0),
+(4, 'Cheese Bacon', 'Carne de vaca madurada, queso \r\nMonterrey Jack y bacon ahumado.', 12.5, 92, 0, 2, 0),
+(5, 'Marcen', 'Cerveza tostada con 5.6% Alc.', 5, 138, 0, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -140,6 +212,22 @@ CREATE TABLE `reservas` (
   `comensales` int(11) NOT NULL,
   `estado` tinyint(1) NOT NULL COMMENT '0 - activa\r\n1 - terminada'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `reservas`
+--
+
+INSERT INTO `reservas` (`usuario`, `idm`, `fechahora`, `comensales`, `estado`) VALUES
+('51234567A', 1, '2025-11-20 08:29:34', 5, 1),
+('51234567A', 1, '2025-11-20 08:30:17', 5, 1),
+('51234567A', 1, '2025-11-20 08:38:15', 4, 1),
+('51234567A', 1, '2025-11-20 08:40:26', 5, 1),
+('51234567A', 1, '2025-11-20 08:40:47', 3, 1),
+('51234567A', 1, '2025-11-20 08:50:41', 5, 1),
+('51234567A', 1, '2025-11-20 09:09:01', 5, 1),
+('51234567A', 1, '2025-12-01 11:14:59', 5, 1),
+('51234567A', 1, '2025-12-01 11:19:52', 5, 1),
+('51234567A', 1, '2025-12-09 07:59:48', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -237,13 +325,13 @@ ALTER TABLE `categoria`
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idped` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido_producto`
 --
 ALTER TABLE `pedido_producto`
-  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_linea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
