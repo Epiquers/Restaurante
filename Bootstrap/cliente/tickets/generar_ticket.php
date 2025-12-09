@@ -53,6 +53,7 @@ try {
         foreach ($_SESSION['pedido'] as $indice => $producto) {
             $printer->text(sprintf("%-20s %-20s\n", $producto['nombre'], $producto['notas']));
         }
+        $printer->text(str_repeat("-", 42) . "\n\n");
 
         // Cierro conexión
         mysqli_close($conn);
